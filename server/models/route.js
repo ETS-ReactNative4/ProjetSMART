@@ -6,8 +6,9 @@ const schema = new Schema({
     lat: Number,
     lon : Number,
 });
- 
-const Route = mongoose.model('Route', schema);
+
+//Pour le nom de la table : Par défaut la première lettre est en minuscule et un s est ajouté à la fin
+const Route = mongoose.model('Route', schema, 'routes');
 
 module.exports = {
     Route
