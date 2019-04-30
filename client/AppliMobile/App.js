@@ -1,5 +1,6 @@
+
 import React, { Component } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, TextInput, Button  } from 'react-native';
 import { Constants, MapView, Location, Permissions } from 'expo';
 
 export default class App extends React.Component {
@@ -32,13 +33,14 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View style={ styles.container}>
         <MapView
-          style={{ alignSelf: 'stretch', height: 200 }}
+          style={{ marginTop: 30 , alignSelf: 'stretch', height: "90%" }}
           //initialRegion={{ latitude: this.state.location.coords.latitude, longitude: this.state.location.coords.longitude, latitudeDelta: 0.0922, longitudeDelta: 0.0421 }}
           region={this.state.region}
           ref={map => {this.map = map}}
           showsUserLocation = {true}
+          userTrackingMode = {true}
           onRegionChange={this._handleMapRegionChange}
 
 
@@ -50,7 +52,9 @@ export default class App extends React.Component {
       description="Some description"
     />
         </MapView>
-      
+            <TextInput style={{ marginLeft: 5, marginRight: 5, height: 50, borderColor: '#000000', borderWidth: 1, paddingLeft: 5 }} placeholder='Où va-t-on ?'/>
+            <Button title='Rechercher' onPress={() => {}}/>
+             
         <Text>
           Location: {this.state.locationResult}
         </Text>
