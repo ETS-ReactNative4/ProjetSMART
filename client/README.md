@@ -9,7 +9,7 @@ $ npm install
 ```
 Installez l'application Expo sur son smartphone.
 
-## A chaque utilisation
+### A chaque utilisation
 Connectez votre ordinateur et votre portable sur le même réseau (en dehors du réseau eduroam).
 ```sh
 $ npm start
