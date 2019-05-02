@@ -1,11 +1,10 @@
-import API from './api.js';
+import API from './api';
 
 const routeService = {
-  getRoute : async function() {
+  async getRoute() {
     const res = await API.get('api/route');
     return res.data;
   }
-}
+};
 
 export default routeService;
-
