@@ -6,7 +6,8 @@ router.use(morgan('combined'));
 
 router.use(bodyParser.json());
 
-router.use('/route', require('./routeApi'))
+router.use('/route', require('./routeApi'));
+router.use('/directions', require('./googleRequest'));
 
 router.use('*', (req,res) => {
     res.sendStatus(404);
