@@ -17,11 +17,8 @@ export default class RnDirectionsApp extends Component {
   }
 
   componentDidMount() {
-    // find your origin and destination point coordinates and pass it to our method.
-    
+    // find your origin and destination point coordinates and pass it to our method. 
     this._getLocationAsync();
-    //this._getDirections(this.state.geolocalisation, '45.780090, 4.890325');
-      
   }
 
   _handleMapRegionChange = (mapRegion) => {
@@ -32,11 +29,10 @@ export default class RnDirectionsApp extends Component {
     const { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== 'granted') {
       this.setState({
-        locationResult: 'Permission to access location was denied',
-        location,
+        geolocalisation: 'Permission to access location was denied',
       });
     }
-    let locationActuel = await Location.getCurrentPositionAsync({});
+    const locationActuel = await Location.getCurrentPositionAsync({});
     this.setState({ geolocalisation: JSON.stringify(locationActuel) });
     console.log(this.state.geolocalisation);
   };
@@ -76,10 +72,9 @@ export default class RnDirectionsApp extends Component {
           />
         </MapView>
         <Text>
-          Location: {this.state.geolocalisation}
+          {/* Location: {this.state.geolocalisation} */}
         </Text>
-        <Button title='Test Connection' onPress={() => this._getDirections(this.state.geolocalisation,'45.780090, 4.890325')}/>  
-        
+        <Button title="Test Connection" onPress={() => this._getDirections(this.state.geolocalisation, '41.905499, 12.456262')} />
       </View>
     );
   }
