@@ -26,8 +26,8 @@ export default class RnDirectionsApp extends Component {
 
 async _getDirections() {
         try {
-            let respJson = await googleService._getDirections();
-            console.log(respJson);
+            let respJson = await googleService.getDirections();
+            console.log("respJson");
             let points = Polyline.decode(respJson.points);
             let coords = points.map((point, index) => {
                 return  {
@@ -47,8 +47,8 @@ async _getDirections() {
     return (
       <View>
         <MapView style={styles.map} initialRegion={{
-          latitude:41.0082, 
-          longitude:28.9784, 
+          latitude:-33.872659, 
+          longitude: 151.206116, 
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421
         }}>
