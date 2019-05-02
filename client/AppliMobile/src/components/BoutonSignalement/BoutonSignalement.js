@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
+import { View, Button } from 'react-native';
+import styles from './stylesBoutonSignalement.js';
 
 export default class BoutonSignalement extends React.Component {
   render() {
     return (
-        <Text>BoutonSignalement</Text>
+        <View>
+            <Button title='Faire un signalement' onPress={() => {}}/>
+        </View>
     );
   }
 }

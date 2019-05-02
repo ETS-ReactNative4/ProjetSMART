@@ -3,6 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import Carte from '../../components/Carte/Carte';
 import HautAccueil from '../../components/HautAccueil/HautAccueil';
 import BoutonSignalement from '../../components/BoutonSignalement/BoutonSignalement';
+import styles from './stylesAccueil.js';
 
 export default class Accueil extends React.Component {
   render() {
@@ -25,20 +26,3 @@ export default class Accueil extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
-  hautAccueil: {
-    flex: 1,
-    backgroundColor: '#FF5733'
-  },
-  carte: {
-    flex: 8
-  },
-  boutonSignalement: {
-    flex: 1,
-    backgroundColor: '#333EFF'
-  }
-});
