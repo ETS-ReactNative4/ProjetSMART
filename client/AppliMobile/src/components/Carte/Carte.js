@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Text, View, StyleSheet, TextInput, Button  } from 'react-native';
 import { Constants, MapView, Location, Permissions } from 'expo';
 import routeService from '../../services/routeService';
+import styles from './stylesCarte.js';
 
 export default class Carte extends React.Component {
   state = {
@@ -39,8 +40,7 @@ export default class Carte extends React.Component {
     return (
       <View style={ styles.container}>
         <MapView
-          style={{ marginTop: 30 , alignSelf: 'stretch', height: "90%" }}
-          //initialRegion={{ latitude: this.state.location.coords.latitude, longitude: this.state.location.coords.longitude, latitudeDelta: 0.0922, longitudeDelta: 0.0421 }}
+          style={{ marginTop: 30 , alignSelf: 'stretch', height: "50%" }}
           region={this.state.region}
           ref={map => {this.map = map}}
           showsUserLocation = {true}
@@ -53,30 +53,8 @@ export default class Carte extends React.Component {
           description="Some description"
         />
         </MapView>
-        <TextInput style={{ marginLeft: 5, marginRight: 5, height: 50, borderColor: '#000000', borderWidth: 1, paddingLeft: 5 }} placeholder='Où va-t-on ?'/>
-        <Button title='Rechercher' onPress={() => {}}/>
-        <Button title='Test Connection' onPress={() => this._getRoute()}/>   
-        <Text>
-          Location: {this.state.locationResult}
-        </Text>
+        <Button title='Test Connection' onPress={() => this._getRoute()}/>
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: Constants.statusBarHeight,
-    backgroundColor: '#ecf0f1',
-  },
-  paragraph: {
-    margin: 24,
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    color: '#34495e',
-  },
-});

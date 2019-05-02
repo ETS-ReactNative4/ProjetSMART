@@ -8,7 +8,7 @@ export default StyleSheet.create({
   },
   hautAccueil: {
     backgroundColor: 'blue',
-    flex: 1
+    flex: 3
   },
   carte: {
     backgroundColor: 'yellow',
