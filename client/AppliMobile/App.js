@@ -1,18 +1,11 @@
-/* eslint-disable react/prefer-stateless-function */
 import React, { Component } from 'react';
 import { AppRegistry, View } from 'react-native';
-import GoogleAutocomplete from './src/components/googleAutocomplete/googleAutocomplete';
-import Map from './src/components/map/map';
+import Accueil from './src/views/Accueil/Accueil';
 
-
-export default class RnDirectionsApp extends Component {
-
+export default class App extends React.Component {
   render() {
     return (
-      <View>
-        <Map />
-        <GoogleAutocomplete />
-      </View>
+      <Accueil/>
     );
   }
 }
