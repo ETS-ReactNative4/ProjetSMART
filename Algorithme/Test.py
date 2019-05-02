@@ -1,6 +1,7 @@
 import json as js
 import math as Math
 import sys
+from heapq import heappop, heappush
 
 class Noeud:
     def __init__(self,name,latitude,longitude):
@@ -304,17 +305,48 @@ def calcLongueurTableau(tabPoints):
 
 
 
-
 def getLatLngFromString(aString):
     indexVirgule = aString.find(",")
     lng = aString[:indexVirgule]
     lat = aString[indexVirgule+1:]
     return [float(lat),float(lng)]
 
-if __name__ == "__main__":
-    (codeNoeudsNoeuds,mapDijkstraa, CodeTronconTronconInit) = NoeudsGrandLyon("NoeudsGrandLyon.geojson")
-    (codeTronconTronconPartiel) = TronconTestGrandLyon("Test.geojson",CodeTronconTronconInit)
-    codeTronconTroncon = TronconGrandLyon("TronconsGrandLyon.geojson", codeTronconTronconPartiel)
+def dijkstra(graph, weight, source=0, target=None):
+    n = len(graph)
+    assert all(float(weight[graph[u][v]].Longueur) >= 0 for u, g in graph.items() for v, y in graph[u].items())
+    prec = {source: None}
+    black = {}
+    dist = {source: 0}
+    heap = [(0, source)]
+    while heap:
+        dist_node, node = heappop(heap)
+        if node not in black:
+            black[node] = True
+            if node == target:
+                break
+            for neighbor, codeTroncon in graph[node].items():
+                dist_neighbor = dist_node + float(weight[graph[node][neighbor]].Longueur)
+                if (neighbor not in dist) or (dist_neighbor < dist[neighbor]):
+                    dist[neighbor] = dist_neighbor
+                    prec[neighbor] = node
+                    heappush(heap, (dist_neighbor, neighbor))
+    return dist, prec
 
+if __name__ == "__main__":
+    #codeNoeudsNoeuds : Map<CodeNoeud, Noeud>
+    #codeTronconTroncon : Map<CodeTroncon, Troncon>
+    #mapDijkstra : Map<CodeNoeud, Map<CodeNoeud, CodeTroncon>>
+    (codeNoeudsNoeuds, mapDijkstra, CodeTronconTronconInit) = NoeudsGrandLyon("NoeudsGrandLyon.geojson")
+    (codeTronconTronconPartiel) = TronconTestGrandLyon("Test.geojson", CodeTronconTronconInit)
+    codeTronconTroncon = TronconGrandLyon("TronconsGrandLyon.geojson", codeTronconTronconPartiel)
+    pointDepart = codeTronconTroncon["T3223"].NoeudDepart
+    pointArrivee = codeTronconTroncon["T23410"].NoeudDepart
+    dist, prec = dijkstra(mapDijkstra, codeTronconTroncon, pointDepart, pointArrivee)
+    trajet = []
+    parc = pointArrivee
+    while prec[parc] != None:
+        trajet.insert(0, codeTronconTroncon[mapDijkstra[parc][prec[parc]]].rue)
+        parc = prec[parc]
+    print("trajet : ", trajet)
 
 
