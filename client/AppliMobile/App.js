@@ -7,8 +7,9 @@ import {
   Dimensions
 } from 'react-native';
 
-import MapView from 'expo';
+import MapView from 'react-native-maps';
 import Polyline from '@mapbox/polyline';
+import googleService from './src/services/googleService';
 
 export default class RnDirectionsApp extends Component {
   constructor(props) {
@@ -20,14 +21,14 @@ export default class RnDirectionsApp extends Component {
 
   componentDidMount() {
     // find your origin and destination point coordinates and pass it to our method.
-     this.getDirections("45.780090, 4.890325", " 43.8879, 8.0316")
+     this._getDirections();
   }
 
-  async getDirections(startLoc, destinationLoc) {
+async _getDirections() {
         try {
-            let resp = await fetch(`https:/maps.googleapis.com/maps/api/directions/json?origin=${ startLoc }&destination=${ destinationLoc }`)
-            let respJson = await resp.json();
-            let points = Polyline.decode(respJson.routes[0].overview_polyline.points);
+            let respJson = await googleService._getDirections();
+            console.log(respJson);
+            let points = Polyline.decode(respJson.points);
             let coords = points.map((point, index) => {
                 return  {
                     latitude : point[0],
