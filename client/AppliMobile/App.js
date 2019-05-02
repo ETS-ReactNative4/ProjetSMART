@@ -7,9 +7,11 @@ import {
   Dimensions
 } from 'react-native';
 
+
 import MapView from 'react-native-maps';
 import Polyline from '@mapbox/polyline';
 import googleService from './src/services/googleService';
+
 
 export default class RnDirectionsApp extends Component {
   constructor(props) {
@@ -21,6 +23,7 @@ export default class RnDirectionsApp extends Component {
 
   componentDidMount() {
     // find your origin and destination point coordinates and pass it to our method.
+
      this._getDirections();
   }
 
