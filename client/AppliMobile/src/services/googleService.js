@@ -1,14 +1,13 @@
-import API from './api.js';
+import API from './api';
 
 const googleService = {
-
-  getDirections : async function() {
-  	console.log("n'importe quoi")
-    const res = await API.get('api/directions');
-    	console.log("n'importe quoi V2")
+  async getDirections(coordinates, destinationLoc) {
+    console.log("n'importe quoi");
+    // eslint-disable-next-line prefer-template
+    const res = await API.get('api/directions?origin=' + coordinates + '&destination=' + destinationLoc);
+    console.log("n'importe quoi V2");
     return res.data;
   }
-}
+};
 
 export default googleService;
-

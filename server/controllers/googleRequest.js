@@ -6,12 +6,14 @@ const googleMapsClient = require('@google/maps').createClient({
 });
 
 function getDirections(req, res) {
+  console.log(req.query.destination);
   googleMapsClient.directions({
-    origin: 'Town Hall, Sydney, NSW',
-    destination: 'Parramatta, NSW',
+    origin: req.query.origin,
+    destination: req.query.destination,
   })
     .asPromise()
     .then((response) => {
+      console.log(response);
       res.json(response.json.routes[0].overview_polyline);
     })
     .catch((err) => {
