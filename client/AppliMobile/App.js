@@ -1,18 +1,20 @@
 import React, { Component } from 'react';
 import { AppRegistry, StyleSheet, Text, View, Dimensions, Button } from 'react-native';
 import { Location, Permissions } from 'expo';
-import MapView from 'react-native-maps';
+import MapView,  { Marker, ProviderPropType,AnimatedRegion, Animated}from 'react-native-maps';
 import Polyline from '@mapbox/polyline';
 import googleService from './src/services/googleService';
-
-
+import flagBlueImg from './assets/icon.png';
+import flagPinkImg from './assets/flag-blue.png';
 export default class RnDirectionsApp extends Component {
   constructor(props) {
     super(props);
     this.state = {
       mapRegion: { latitude: -33.872659, longitude: 151.206116, latitudeDelta: 0.0922, longitudeDelta: 0.0421 },
-      geolocalisation: null,
-      tabPoints: []
+       //pour les tests markers
+      geolocalisation:null ,
+      locationActuel: {coords: { latitude: 37.78825, longitude: -122.4324}},
+      tabPoints:  []
     };
   }
 
@@ -32,14 +34,14 @@ export default class RnDirectionsApp extends Component {
         geolocalisation: 'Permission to access location was denied',
       });
     }
-    const locationActuel = await Location.getCurrentPositionAsync({});
-    this.setState({ geolocalisation: JSON.stringify(locationActuel) });
-    console.log(this.state.geolocalisation);
+    let locationActuel = await Location.getCurrentPositionAsync({});
+    this.setState({ geolocalisation: JSON.stringify(locationActuel) , locationActuel,});
+    
   };
 
   async _getDirections(coordinates, destinationLoc) {
     try {
-      const respJson = await googleService.getDirections(coordinates, destinationLoc);
+     // const respJson = await googleService.getDirections(coordinates, destinationLoc);
       console.log('respJson');
       const points = Polyline.decode(respJson.points);
       const coords = points.map((point, index) => ({
@@ -70,11 +72,20 @@ export default class RnDirectionsApp extends Component {
             strokeWidth={2}
             strokeColor="red"
           />
+          <MapView.Marker
+          onPress={() => this.setState({ marker1: !this.state.marker1 })}
+          coordinate={this.state.locationActuel.coords}
+         
+          ref={marker => { this.marker = marker }}
+          // transforme le flagblue en flag pink
+          image={this.state.marker1 ? flagBlueImg : flagPinkImg}
+        />
         </MapView>
+         
         <Text>
-          {/* Location: {this.state.geolocalisation} */}
+          Location: {this.state.geolocalisation} 
         </Text>
-        <Button title="Test Connection" onPress={() => this._getDirections(this.state.geolocalisation, '41.905499, 12.456262')} />
+       {/* <Button title="Test Connection" onPress={() => this._getDirections(this.state.geolocalisation, '41.905499, 12.456262')} />*/} 
       </View>
     );
   }
