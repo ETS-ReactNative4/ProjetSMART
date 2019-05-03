@@ -1,9 +1,9 @@
 import React from 'react';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import { API_KEY_GOOGLE_DIRECTIONS } from '../../../secret/api_key';
+import { API_KEY_GOOGLE_DIRECTIONS } from '../../../secret/api_keys';
 
-const windowSize = require('Dimensions').get('window')
-;
+const windowSize = require('Dimensions').get('window');
+
 const deviceWidth = windowSize.width;
 const deviceHeight = windowSize.height;
 
@@ -18,6 +18,7 @@ export default class GoogleAutocomplete extends React.Component {
         autoFocus={false}
         returnKeyType="default"
         fetchDetails
+        currentLocation
         onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
           console.log(details.geometry.location);
         }}
@@ -53,8 +54,6 @@ export default class GoogleAutocomplete extends React.Component {
             marginTop: 50
           }
         }}
-        // eslint-disable-next-line react/jsx-boolean-value
-        currentLocation={true}
       />
     );
   }
