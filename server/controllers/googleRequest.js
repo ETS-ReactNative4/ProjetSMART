@@ -7,6 +7,7 @@ const googleMapsClient = require('@google/maps').createClient({
 
 function getDirections(req, res) {
   console.log(req.query.origin);
+  console.log(req.query.destination);
   googleMapsClient.directions({
     origin: req.query.origin,
     destination: req.query.destination,
@@ -14,6 +15,7 @@ function getDirections(req, res) {
     .asPromise()
     .then((response) => {
       // console.log(response.json.routes[0].legs);
+      console.log(response);
       res.json(response.json.routes[0].overview_polyline);
     })
     .catch((err) => {

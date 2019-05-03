@@ -35,7 +35,7 @@ export default class Map extends Component {
     }
     const locationActuel = await Location.getCurrentPositionAsync({});
     this.setState({ geolocalisation: JSON.stringify(locationActuel) });
-    console.log(this.state.geolocalisation);
+    console.log('la géoloc' + this.state.geolocalisation);
   };
 
   async _getDirections(coordinates, destinationLoc) {
@@ -73,6 +73,7 @@ export default class Map extends Component {
             strokeColor="red"
           />
         </MapView>
+        <Button title="Test Connection" onPress={() => this._getDirections(this.state.geolocalisation, '41.905499, 12.456262')} />
       </View>
     );
   }

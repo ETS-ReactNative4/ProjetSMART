@@ -52,11 +52,11 @@ export default class GoogleAutocomplete extends React.Component {
           listView: {
             position: 'absolute',
             backgroundColor: 'white',
-            marginTop: 50,
+            marginTop: 50
           }
         }}
         // eslint-disable-next-line react/jsx-boolean-value
-        currentLocation={false}
+        currentLocation={true}
       />
     );
   }
