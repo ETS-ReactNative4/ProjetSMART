@@ -2,6 +2,7 @@ import json as js
 import math as Math
 import sys
 import json
+import simplejson
 from heapq import heappop, heappush
 
 class Noeud:
@@ -84,6 +85,13 @@ def ObtenirInfos(monFichier):
         print("ce fichier est introuvable ou n'existe pas")
         return None
 
+def ObtenirStringInfos(monFichier):
+    a_etudier = ObtenirInfos(monFichier)
+    a = ""
+    for param in a_etudier: 
+        a= a + " " + param
+    return a
+
 def ObtenirIntersections(monFichier):
     a_etudier = ObtenirInfos(monFichier)
     retour = dict()
@@ -163,7 +171,6 @@ def ObtenirNumRues(monFichier):
                     retour[Voie].append(coordonnees[:-4])
             elif Voie.__len__() > 1:
                 retour[Voie] = [coordonnees[:-4]]
-
     return retour
 
 
@@ -367,15 +374,17 @@ if __name__ == "__main__":
         trajet.insert(0, codeTronconTroncon[mapDijkstra[parc][prec[parc]]].rue)
         parc = prec[parc]
     print("trajet : ", trajet)
-    
-    with open("donnees_codeTroncon_Troncon","w") as write_troncon:
-        json.dump(codeTronconTroncon, write_troncon, indent = 4, default=lambda o: o.json_serialize())
+    print(codeTronconTroncon["T39070"].rue)
+    with open("donnees_codeTroncon_Troncon","w", encoding='UTF-8') as write_troncon:
+        json.dump(codeTronconTroncon, write_troncon, indent = 4, default=lambda o: o.json_serialize(),ensure_ascii=False)
 
-    with open("donnees_codeNoeud_Noeud","w") as write_noeuds:
-        json.dump(codeNoeudsNoeuds, write_noeuds, indent = 4, default=lambda o: o.json_serialize())
+    with open("donnees_codeNoeud_Noeud","w", encoding='UTF-8') as write_noeuds:
+        json.dump(codeNoeudsNoeuds, write_noeuds, indent = 4, default=lambda o: o.json_serialize(),ensure_ascii=False)
 
-        with open("donnees_map_Dijkstra", "w") as write_dijkstraa:
-            json.dump(mapDijkstra, write_dijkstraa, indent=4, default=lambda o: o.json_serialize())
+    with open("donnees_map_Dijkstra", "w", encoding='UTF-8') as write_dijkstraa:
+        json.dump(mapDijkstra, write_dijkstraa, indent=4, default=lambda o: o.json_serialize(),ensure_ascii=False)
 
-
+    '''jsonNoeud = simplejson.load(("donnees_codeNoeud_Noeud"))
+    jsonTroncon = simplejson.load(("donnees_codeTroncon_Troncon"))
+    jsonDijkstraa = simplejson.load(=("donnees_map_Dijkstra"))'''
 
