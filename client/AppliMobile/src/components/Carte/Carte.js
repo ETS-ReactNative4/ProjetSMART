@@ -1,60 +1,96 @@
+/* eslint-disable linebreak-style */
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, TextInput, Button  } from 'react-native';
-import { Constants, MapView, Location, Permissions } from 'expo';
-import routeService from '../../services/routeService';
-import styles from './stylesCarte.js';
+import { StyleSheet, View, Dimensions, Button } from 'react-native';
+import { Location, Permissions } from 'expo';
+import MapView from 'react-native-maps';
+import Polyline from '@mapbox/polyline';
+import googleService from '../../services/googleService';
 
-export default class Carte extends React.Component {
-  state = {
-    mapRegion: { latitude: 37.78825, longitude: -122.4324, latitudeDelta: 0.0922, longitudeDelta: 0.0421 },
-    locationResult: null,
-    location: {coords: { latitude: 37.78825, longitude: -122.4324}}
-  };
+
+export default class Map extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      mapRegion: { latitude: -33.872659, longitude: 151.206116, latitudeDelta: 0.0922, longitudeDelta: 0.0421 },
+      geolocalisation: null,
+      tabPoints: []
+    };
+  }
 
   componentDidMount() {
+    // find your origin and destination point coordinates and pass it to our method.
     this._getLocationAsync();
   }
 
-  _handleMapRegionChange = mapRegion => {
+  _handleMapRegionChange = (mapRegion) => {
     this.setState({ mapRegion });
   };
 
   _getLocationAsync = async () => {
-    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    const { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== 'granted') {
       this.setState({
-        locationResult: 'Permission to access location was denied',
-        location,
+        geolocalisation: 'Permission to access location was denied',
       });
     }
-    let location = await Location.getCurrentPositionAsync({});
-    this.setState({ locationResult: JSON.stringify(location), location, });
+    const locationActuel = await Location.getCurrentPositionAsync({});
+    this.setState({ geolocalisation: JSON.stringify(locationActuel) });
+    console.log(`la géoloc ${this.state.geolocalisation}`);
   };
 
-  _getRoute = async () => {
-    const res = await routeService.getRoute();
-    console.log(res);
+  async _getDirections(coordinates, destinationLoc) {
+    try {
+      const respJson = await googleService.getDirections(coordinates, destinationLoc);
+      console.log('respJson');
+      const points = Polyline.decode(respJson.points);
+      const coords = points.map(point => ({
+        latitude: point[0],
+        longitude: point[1]
+      }));
+      this.setState({ tabPoints: coords });
+      return this.state.tabPoints;
+    } catch (error) {
+      alert(error);
+      return error;
+    }
   }
 
   render() {
     return (
-      <View style={ styles.container}>
+
+      <View>
         <MapView
-          style={{ marginTop: 30 , alignSelf: 'stretch', height: "50%" }}
+          style={styles.map}
           region={this.state.region}
-          ref={map => {this.map = map}}
-          showsUserLocation = {true}
-          userTrackingMode = {true}
-          onRegionChange={this._handleMapRegionChange}      
+          ref={(map) => { this.map = map; }}
+          showsUserLocation
+          userTrackingMode
+          onRegionChange={this._handleMapRegionChange}
         >
-        <MapView.Marker
-          coordinate={this.state.location.coords}
-          title="My Marker"
-          description="Some description"
-        />
+          <MapView.Polyline
+            coordinates={this.state.tabPoints}
+            strokeWidth={2}
+            strokeColor="red"
+          />
         </MapView>
-        <Button title='Test Connection' onPress={() => this._getRoute()}/>
+        <Button title="Test Connection" onPress={() => this._getDirections(this.state.geolocalisation, '41.905499, 12.456262')} />
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  map: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height
+  },
+});
+
+/*
+<Button title="Test Connection" onPress={() => this._getDirections(this.state.geolocalisation, '41.905499, 12.456262')} />
+*/
