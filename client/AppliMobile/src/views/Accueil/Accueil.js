@@ -8,7 +8,6 @@ import styles from './stylesAccueil.js';
 export default class Accueil extends React.Component {
   render() {
     return (
-
       <View style={ styles.container}>
 
         <View style={ styles.hautAccueil}>
