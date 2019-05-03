@@ -1,6 +1,7 @@
 import json as js
 import math as Math
 import sys
+import json
 from heapq import heappop, heappush
 
 class Noeud:
@@ -20,6 +21,10 @@ class Noeud:
         # True at the same time
         return not(self == other)
 
+    def json_serialize(self):
+        return {'name': self.name,
+                'latitude': self.latitude,
+                'longitude': self.longitude}
 class Troncon:
     def __init__(self,NoeudDepart,NoeudArrivee,Longueur,codeTroncon, coordonnees, commune, rue):
         self.NoeudDepart = NoeudDepart
@@ -43,6 +48,16 @@ class Troncon:
         # Not strictly necessary, but to avoid having both x==y and x!=y
         # True at the same time
         return not(self == other)
+
+    def json_serialize(self):
+        return {'NoeudDepart': self.NoeudDepart,
+                'NoeudArrivee': self.NoeudArrivee,
+                'Longueur': self.Longueur,
+                'codeTroncon': self.codeTroncon,
+                'coordonnees': self.coordonnees,
+                'commune': self.commune,
+                'rue': self.rue}
+
 
 class RouteKey:
     def __init__(self,nameCity,nameSelf):
@@ -204,6 +219,9 @@ def NoeudsGrandLyon(monFichier):
                 a = dict()
                 a[k] = i
                 mapDijkstraa[l] = a
+        else:
+            del mapCodeTronconTronconPartiel[i]
+
 
     return (codeNoeudsNoeuds, mapDijkstraa, mapCodeTronconTronconPartiel)
 
@@ -254,17 +272,18 @@ def TronconGrandLyon(monFichier,mapTroncons):
             indexPremApos = parametre.find("\"", indexDeuxPoints) + 1
             indexDeuxApos = parametre.find("\"", indexPremApos)
             nomCommune = parametre[indexPremApos:indexDeuxApos]
-            mapTroncons[codeTroncon].commune = nomCommune
-            mapTroncons[codeTroncon].rue = nom
+            if codeTroncon in mapTroncons:
+                mapTroncons[codeTroncon].commune = nomCommune
+                mapTroncons[codeTroncon].rue = nom
 
-            if not hasattr(mapTroncons[codeTroncon],'Longueur'):
-                indexCoordonnees = parametre.find("\"coordinates\": [ [ [")
-                coordonnees = parametre[indexCoordonnees + 20:-9]
-                coordonneesSplit = coordonnees.split('], [')
-                coordonneesSplit[len(coordonneesSplit) - 1] = coordonneesSplit[len(coordonneesSplit) - 1][:-2]
-                mapTroncons[codeTroncon].coordonnees = coordonneesSplit
-                longueur = calcLongueurTableau(coordonneesSplit)
-                mapTroncons[codeTroncon].Longueur = longueur
+                if not hasattr(mapTroncons[codeTroncon],'Longueur'):
+                    indexCoordonnees = parametre.find("\"coordinates\": [ [ [")
+                    coordonnees = parametre[indexCoordonnees + 20:-9]
+                    coordonneesSplit = coordonnees.split('], [')
+                    coordonneesSplit[len(coordonneesSplit) - 1] = coordonneesSplit[len(coordonneesSplit) - 1][:-2]
+                    mapTroncons[codeTroncon].coordonnees = coordonneesSplit
+                    longueur = calcLongueurTableau(coordonneesSplit)
+                    mapTroncons[codeTroncon].Longueur = longueur
     return mapTroncons
 
 
@@ -348,5 +367,15 @@ if __name__ == "__main__":
         trajet.insert(0, codeTronconTroncon[mapDijkstra[parc][prec[parc]]].rue)
         parc = prec[parc]
     print("trajet : ", trajet)
+    
+    with open("donnees_codeTroncon_Troncon","w") as write_troncon:
+        json.dump(codeTronconTroncon, write_troncon, indent = 4, default=lambda o: o.json_serialize())
+
+    with open("donnees_codeNoeud_Noeud","w") as write_noeuds:
+        json.dump(codeNoeudsNoeuds, write_noeuds, indent = 4, default=lambda o: o.json_serialize())
+
+        with open("donnees_map_Dijkstra", "w") as write_dijkstraa:
+            json.dump(mapDijkstra, write_dijkstraa, indent=4, default=lambda o: o.json_serialize())
+
 
 
