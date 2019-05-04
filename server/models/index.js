@@ -1,5 +1,7 @@
-const { Route } = require('./route');
+const { Troncon } = require('./troncons');
+const { Noeud } = require('./noeuds');
 
 module.exports = {
-    Route,
+    Troncon,
+    Noeud
 }
