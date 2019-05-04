@@ -27,7 +27,6 @@ function findClosestNode(noeuds, latStart, longStart){
     var node = noeuds[0];
     var distTempo = 0;
     for (var i in noeuds) {
-        console.log(noeuds[i].latitude);
         distTempo = calculateDistance(latStart, longStart, parseFloat(noeuds[i].latitude), parseFloat(noeuds[i].longitude));
         if(distTempo<distance){
             distance = distTempo;
