@@ -26,8 +26,9 @@ export default class BoutonSignalement extends React.Component {
       (error) => {
         this._envoyerSignalement(signalement, null, null, error.message);
       },
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+      { enableHighAccuracy: true, timeout: 1000, maximumAge: 1000 },
     );
+    this._onPressRetour();
   }
 
   _onPressSignalement = () => {
@@ -46,7 +47,7 @@ export default class BoutonSignalement extends React.Component {
           <Button
             style={styles.bouton}
             onPress={this._onPressSignalement}
-            title="Signalement"
+            title="!"
           />
         </View>
       );
@@ -58,17 +59,37 @@ export default class BoutonSignalement extends React.Component {
           <Button
             style={styles.bouton}
             onPress={() => {this._signaler("Eclairage")} }
-            title="Eclairage"
+            title="E"
           />
           <Button
             style={styles.bouton}
             onPress={() => {this._signaler("Travaux")} }
-            title="Travaux"
+            title="T"
+          />
+          <Button
+            style={styles.bouton}
+            onPress={() => {this._signaler("Fermer")} }
+            title="F"
+          />
+          <Button
+            style={styles.bouton}
+            onPress={() => {this._signaler("EtatRoute")} }
+            title="R"
+          />
+          <Button
+            style={styles.bouton}
+            onPress={() => {this._signaler("Securite")} }
+            title="S"
+          />
+          <Button
+            style={styles.bouton}
+            onPress={() => {this._signaler("Interet")} }
+            title="I"
           />
           <Button
             style={styles.bouton}
             onPress={this._onPressRetour}
-            title="Retour"
+            title="Annuler"
           />
         </View>
       );
