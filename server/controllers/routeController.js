@@ -3,7 +3,6 @@ const pythonController = require('../helpers/pythonController');
 const routeController = require('./googleRequest');
 const GeoPoint = require('geopoint');
 const polyline = require('@mapbox/polyline');
-const db = require('./utils/db');
 
 async function getAllRoutes(req,res) {
     const routes = await routeService.getAllRoutes();
@@ -50,12 +49,12 @@ function calculateDistance(lat1,long1,lat2,long2) {
     return distance;
 }
 
-async function buildPolyline (tabIdTroncons) {
+async function buildPolyline (req, res) {
+    const envoi = ['T50212', 'T24238'];
     const listeTroncons = await routeService.getTronconsbyId(envoi);
     console.log(listeTroncons);
+    res.json(listeTroncons);
 }
-
-await buildPolyline(['T50212', 'T24238']);
 
 module.exports = {
     getAllRoutes,

@@ -27,5 +27,6 @@ async function getTronconsbyId(tabIdTroncons) {
 module.exports = {
   getAllRoutes,
   getRouteByCityStreet,
-  getNoeudByCode
+  getNoeudByCode,
+  getTronconsbyId
 };
