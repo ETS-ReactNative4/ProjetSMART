@@ -5,7 +5,7 @@ import FinTrajet from './src/views/FinTrajet/FinTrajet';
 export default class App extends React.Component {
   render() {
     return (
-      <FinTrajet />
+      <Accueil />
     );
   }
 }
