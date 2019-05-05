@@ -4,9 +4,42 @@ const routeController = require('./googleRequest');
 const GeoPoint = require('geopoint');
 const polyline = require('@mapbox/polyline');
 
-async function getAllRoutes(req,res) {
+async function getAllRoutesWithPenalties() {
     const routes = await routeService.getAllRoutes();
-    res.json(routes);
+    var penalite;
+    var ajout = [];
+    var retour = [];
+    for(i in routes){
+        penalite = 0;
+        ajout = [];
+        if (!!routes[i].eclairage) {
+            penalite = penalite + 2*routes[i].eclairage;
+        }
+        if (!!routes[i].travaux) {
+            penalite = penalite + 4*routes[i].travaux;
+        }
+        if (!!routes[i].fermee) {
+            if (routes[i].fermee > 5) {
+                penalite = penalite + 10000;
+            }
+        }
+        if (!!routes[i].etat) {
+            penalite = penalite + 4*routes[i].etat;
+        }
+        if (!!routes[i].securite) {
+            penalite = penalite + 2*routes[i].securite;
+        }
+        if (!!routes[i].interet) {
+            penalite = penalite - 2*routes[i].interet;
+        }
+        if (penalite < 0) {
+          penalite = 0;
+        }
+        ajout.push(routes[i].codeTroncon);
+        ajout.push(penalite.toString());
+        retour.push(ajout);
+    }
+    return retour;
 }
 
 async function getRouteByCityStreet(req,res) {
@@ -19,9 +52,10 @@ async function getRouteByCityStreet(req,res) {
       noeuds.push(noeudDepart[0]);
       noeuds.push(noeudArrivee[0]);
     }
-    const node = findClosestNode(noeuds, 4.836028412790716, 45.76666866638335 );
-    const test = node.longitude + ", " + node.latitude;
+    const node = findClosestNode(noeuds,45.76666866638335, 4.836028412790716);
+    const test = node.latitude + ", " + node.longitude;
     const test2 =  "45.76666866638335, 4.836028412790716";
+    console.log(node);
     const wayToNode = routeController.getDirectionsByCommuneRue(test, test2);
     //res.json(node);
     res.json(wayToNode);
@@ -57,7 +91,7 @@ async function buildPolyline (req, res) {
 }
 
 module.exports = {
-    getAllRoutes,
+    getAllRoutesWithPenalties,
     getRouteByCityStreet,
     buildPolyline,
 }

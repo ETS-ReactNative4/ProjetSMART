@@ -3,7 +3,7 @@ const am = require('../utils/async-middleware');
 
 const routeController = require('../controllers/routeController');
 
-router.get('/', am(routeController.getAllRoutes));
+router.get('/', am(routeController.getAllRoutesWithPenalties));
 router.get('/findTroncon/', am(routeController.getRouteByCityStreet));
 router.get('/test', am(routeController.buildPolyline))
 

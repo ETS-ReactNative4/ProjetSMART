@@ -5,6 +5,7 @@ const schema = new Schema({
     NoeudDepart: String,
     NoeudArrivee: String,
     Longueur: Number,
+    codeTroncon: String,
     Coordonnes: [Schema.Types.Mixed],
     commune: String,
     rue: String,
@@ -15,6 +16,12 @@ const schema = new Schema({
     largeurTrottoir1: String,
     revetTrottoir2: String,
     largeurTrottoir2: String,
+    eclairage: Number,
+    travaux: Number,
+    fermee: Number,
+    etat: Number,
+    securite: Number,
+    interet: Number,
 });
 
 //Pour le nom de la table : Par défaut la première lettre est en minuscule et un s est ajouté à la fin
