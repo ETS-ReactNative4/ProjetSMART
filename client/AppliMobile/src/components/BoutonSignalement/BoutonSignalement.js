@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Button, Alert } from 'react-native';
 import styles from './stylesBoutonSignalement';
+import { Icon } from 'react-native-elements';
 
 export default class BoutonSignalement extends React.Component {
 
@@ -44,10 +45,13 @@ export default class BoutonSignalement extends React.Component {
     {
       return (
         <View style={styles.container} >
-          <Button
+          <Icon
+            raised
             style={styles.bouton}
+            name='exclamation'
+            type='font-awesome'
+            color='#f50'
             onPress={this._onPressSignalement}
-            title="!"
           />
         </View>
       );
@@ -56,40 +60,61 @@ export default class BoutonSignalement extends React.Component {
     {
       return (
         <View style={styles.container} >
-          <Button
+          <Icon
+            raised
             style={styles.bouton}
+            name='lightbulb-o'
+            type='font-awesome'
+            color='#f50'
             onPress={() => {this._signaler("Eclairage")} }
-            title="E"
           />
-          <Button
+          <Icon
+            raised
             style={styles.bouton}
+            name='exclamation-triangle'
+            type='font-awesome'
+            color='#f50'
             onPress={() => {this._signaler("Travaux")} }
-            title="T"
           />
-          <Button
+          <Icon
+            raised
             style={styles.bouton}
-            onPress={() => {this._signaler("Fermer")} }
-            title="F"
+            name='close'
+            type='font-awesome'
+            color='#f50'
+            onPress={() => {this._signaler("Ferme")} }
           />
-          <Button
+          <Icon
+            raised
             style={styles.bouton}
+            name='road'
+            type='font-awesome'
+            color='#f50'
             onPress={() => {this._signaler("EtatRoute")} }
-            title="R"
           />
-          <Button
+          <Icon
+            raised
             style={styles.bouton}
+            name='security'
+            type='material-icons'
+            color='#f50'
             onPress={() => {this._signaler("Securite")} }
-            title="S"
           />
-          <Button
+          <Icon
+            raised
             style={styles.bouton}
+            name='heart'
+            type='font-awesome'
+            color='#f50'
             onPress={() => {this._signaler("Interet")} }
-            title="I"
           />
-          <Button
+          <Icon
+            raised
             style={styles.bouton}
+            name='back'
+            type='antdesign'
+            color='#f50'
             onPress={this._onPressRetour}
-            title="Annuler"
           />
         </View>
       );
