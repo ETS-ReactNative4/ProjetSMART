@@ -2,13 +2,15 @@ const routeService = require('../services/routeService');
 const pythonController = require('../helpers/pythonController');
 const routeController = require('./googleRequest');
 const GeoPoint = require('geopoint');
+const polyline = require('@mapbox/polyline');
+const db = require('./utils/db');
 
-async function getAllRoutes(req,res){
+async function getAllRoutes(req,res) {
     const routes = await routeService.getAllRoutes();
     res.json(routes);
 }
 
-async function getRouteByCityStreet(req,res){
+async function getRouteByCityStreet(req,res) {
     const routes = await routeService.getRouteByCityStreet(req.query.commune, req.query.rue);
     //res.json(routes);
     var noeuds = [];
@@ -27,7 +29,7 @@ async function getRouteByCityStreet(req,res){
     return routes;
 }
 
-function findClosestNode(noeuds, latStart, longStart){
+function findClosestNode(noeuds, latStart, longStart) {
     var distance = 1000000;
     var node = noeuds[0];
     var distTempo = 0;
@@ -41,14 +43,22 @@ function findClosestNode(noeuds, latStart, longStart){
     return node;
 }
 
-function calculateDistance(lat1,long1,lat2,long2){
+function calculateDistance(lat1,long1,lat2,long2) {
     point1 = new GeoPoint(lat1, long1);
     point2 = new GeoPoint(lat2, long2);
     var distance = point1.distanceTo(point2, true)//output in kilometers
     return distance;
 }
 
+async function buildPolyline (tabIdTroncons) {
+    const listeTroncons = await routeService.getTronconsbyId(envoi);
+    console.log(listeTroncons);
+}
+
+await buildPolyline(['T50212', 'T24238']);
+
 module.exports = {
     getAllRoutes,
     getRouteByCityStreet,
+    buildPolyline,
 }
