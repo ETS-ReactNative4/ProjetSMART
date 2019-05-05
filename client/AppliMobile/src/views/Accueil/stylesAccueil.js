@@ -15,7 +15,6 @@ export default StyleSheet.create({
     flex: 8
   },
   boutonSignalement: {
-    backgroundColor: 'blue',
     flex: 1,
     justifyContent: 'center'
   }
