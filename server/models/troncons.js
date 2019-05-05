@@ -2,12 +2,19 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const schema = new Schema({
-    Longueur: String,
     NoeudDepart: String,
     NoeudArrivee: String,
-    Coordonnes: [{
-                type: String
-    }]
+    Longueur: Number,
+    Coordonnes: [Mixed],
+    commune: String,
+    rue: String,
+    codefuv: String,
+    cyclable: String,
+    matiereDangereuse: String,
+    revetTrottoir1: String,
+    largeurTrottoir1: String,
+    revetTrottoir2: String,
+    largeurTrottoir2: String,
 });
 
 //Pour le nom de la table : Par défaut la première lettre est en minuscule et un s est ajouté à la fin

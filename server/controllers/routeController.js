@@ -1,5 +1,6 @@
 const routeService = require('../services/routeService');
 const pythonController = require('../helpers/pythonController');
+const routeController = require('./googleRequest');
 const GeoPoint = require('geopoint');
 
 async function getAllRoutes(req,res){
@@ -17,8 +18,12 @@ async function getRouteByCityStreet(req,res){
       noeuds.push(noeudDepart[0]);
       noeuds.push(noeudArrivee[0]);
     }
-    const node = findClosestNode(noeuds, 4.836018412790716, 45.76665866638335 );
-    res.json(node);
+    const node = findClosestNode(noeuds, 4.836028412790716, 45.76666866638335 );
+    const test = node.longitude + ", " + node.latitude;
+    const test2 =  "45.76666866638335, 4.836028412790716";
+    const wayToNode = routeController.getDirectionsByCommuneRue(test, test2);
+    //res.json(node);
+    res.json(wayToNode);
     return routes;
 }
 
