@@ -5,7 +5,7 @@ const schema = new Schema({
     NoeudDepart: String,
     NoeudArrivee: String,
     Longueur: Number,
-    Coordonnes: [Schema.Types.Mixed],
+    coordonnees: [Schema.Types.Mixed],
     commune: String,
     rue: String,
     codefuv: String,

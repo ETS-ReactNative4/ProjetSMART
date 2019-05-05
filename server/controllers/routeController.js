@@ -52,8 +52,12 @@ function calculateDistance(lat1,long1,lat2,long2) {
 async function buildPolyline (req, res) {
     const envoi = ['T50212', 'T24238'];
     const listeTroncons = await routeService.getTronconsbyId(envoi);
-    console.log(listeTroncons);
-    res.json(listeTroncons);
+    let tabPoints = [];
+    listeTroncons.forEach(troncon => {
+        tabPoints = tabPoints.concat(troncon.coordonnees);
+    })
+    const polRes = polyline.encode(tabPoints);
+    res.json(polRes);
 }
 
 module.exports = {
