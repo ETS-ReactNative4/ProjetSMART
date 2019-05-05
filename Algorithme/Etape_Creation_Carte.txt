@@ -1,0 +1,11 @@
+Creation de la carte sous forme de graphe, puis stockage format json :
+
+Structure de la carte :
+Noeuds du graphe : Map<Nom de rue, Map<Lat/long, Données = (numéro, ...) >>
+Arcs du graphe : Map<Nom de rue, Map <Lat/long Départ / Lat/long Arrivée, Données sur le tronçon = (Notes, état, trottoir, etc)>>
+Stocké en mémoire
+
+1. Parcourir les données "Chaussées ..." du Grand Lyon : Pour chaque rue, chaque coordonnées différentes, créer un noeud, identifié par ses coordonnées (insertion dans une map)
+2. Parcourir liste d'intersection : pour chaque intersection : on crée un noeud, trouver sur quels 2 tronçons cette intersection arrive, on découpe ces deux 2 tronçons chacun en deux, avec l'intersection comme depart de l'un, arrivée de l'autre.
+3. Parcourir la liste des numéros de voirie, projection minimale sur tous les tronçons de la bonne rue (avec le bon nom), et comme dans 2 : on découpe le tronçon en deux, on crée un noeud avec le numéro, et les deux tronçons créés : un ave l'arrivée le nouveau noeud, l'autre avec le départ.
+4. Ecriture des noeuds, puis des arcs sous format json : C'est notre base de donnée MongoDB.

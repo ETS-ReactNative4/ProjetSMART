@@ -6,8 +6,6 @@ const googleMapsClient = require('@google/maps').createClient({
 });
 
 function getDirections(req, res) {
-  console.log(req.query.origin);
-  console.log(req.query.destination);
   googleMapsClient.directions({
     origin: req.query.origin,
     destination: req.query.destination,
@@ -15,8 +13,23 @@ function getDirections(req, res) {
     .asPromise()
     .then((response) => {
       // console.log(response.json.routes[0].legs);
-      console.log(response);
-      res.json(response.json.routes[0].overview_polyline);
+      res.json(response.json.routes[0]);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
+function getDirectionsByCommuneRue(depart, destination) {
+  googleMapsClient.directions({
+    origin: depart,
+    destination: destination,
+  })
+    .asPromise()
+    .then((response) => {
+      // console.log(response.json.routes[0].legs);
+      console.log(response.json.routes[0].overview_polyline);
+      return response.json.routes[0];
     })
     .catch((err) => {
       console.log(err);
@@ -24,5 +37,6 @@ function getDirections(req, res) {
 }
 
 module.exports = {
-  getDirections
+  getDirections,
+  getDirectionsByCommuneRue
 }
