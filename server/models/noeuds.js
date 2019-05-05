@@ -3,8 +3,8 @@ const Schema = mongoose.Schema;
 
 const schema = new Schema({
     name: String,
-    latitude: String,
-    longitude : String,
+    latitude: Number,
+    longitude : Number,
 });
 
 //Pour le nom de la table : Par défaut la première lettre est en minuscule et un s est ajouté à la fin
