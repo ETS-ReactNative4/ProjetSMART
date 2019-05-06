@@ -3,6 +3,7 @@ const pythonController = require('../helpers/pythonController');
 const routeController = require('./googleRequest');
 const GeoPoint = require('geopoint');
 const polyline = require('@mapbox/polyline');
+const fs = require('fs');
 
 async function getAllRoutesWithPenalties() {
     const routes = await routeService.getAllRoutes();
@@ -10,7 +11,7 @@ async function getAllRoutesWithPenalties() {
     var ajout = [];
     var retour = [];
     for(i in routes){
-        penalite = 0;
+        penalite = 1;
         ajout = [];
         if (!!routes[i].eclairage) {
             penalite = penalite + 2*routes[i].eclairage;
@@ -35,11 +36,21 @@ async function getAllRoutesWithPenalties() {
         if (penalite < 0) {
           penalite = 0;
         }
+        penalite = penalite * routes[i].Longueur;
         ajout.push(routes[i].codeTroncon);
         ajout.push(penalite.toString());
         retour.push(ajout);
     }
-    return retour;
+    fs.writeFile("server/pythonCode/db.txt",JSON.stringify(retour), function(err) {
+    if(err) {
+        return console.log(err);
+    }
+    console.log("The file was saved!");
+    });
+    let trajet;
+    trajet = await pythonController.fillDataBase("server/pythonCode/db.txt");
+    const test2 = JSON.parse(trajet);
+    console.log(test2[0]);
 }
 
 async function getRouteByCityStreet(req,res) {

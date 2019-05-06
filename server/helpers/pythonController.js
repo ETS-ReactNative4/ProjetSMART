@@ -1,13 +1,13 @@
 const routeService = require('../controllers/routeController');
-async function fillDataBase() {
 
+const fillDataBase = (liste) => {
+  return new Promise((res, err) => {
     const { spawn } = require('child_process');
-    const liste = routeService.getAllRoutesWithPenalties();
-    const pyProg = spawn('python', ['server/pythonCode/test.py', liste]);
-
+    const pyProg = spawn('python', ['server/pythonCode/Dijkstra.py', JSON.stringify(liste)]);
     pyProg.stdout.on('data', function(data) {
-        console.log(data.toString());
+        res(data.toString());
     });
+  })
 };
 
 module.exports = {
