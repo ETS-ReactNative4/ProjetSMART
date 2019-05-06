@@ -6,7 +6,7 @@ const schema = new Schema({
     NoeudArrivee: String,
     Longueur: Number,
     codeTroncon: String,
-    Coordonnes: [Schema.Types.Mixed],
+    coordonnees: [Schema.Types.Mixed],
     commune: String,
     rue: String,
     codefuv: String,
