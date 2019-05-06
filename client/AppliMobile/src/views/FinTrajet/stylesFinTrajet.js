@@ -5,7 +5,8 @@ export default StyleSheet.create({
     flex: 1
   },
   titre: {
-    backgroundColor: '#D5D5D5',
+    backgroundColor: '#2A2E43',
+    color:'#ffffff',
     flex: 1,
     fontWeight: 'bold',
     fontSize: 30,
