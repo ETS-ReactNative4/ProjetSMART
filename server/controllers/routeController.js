@@ -1,6 +1,6 @@
 const routeService = require('../services/routeService');
 const pythonController = require('../helpers/pythonController');
-const routeController = require('./googleRequest');
+const googleRequest = require('./googleRequest');
 const GeoPoint = require('geopoint');
 const polyline = require('@mapbox/polyline');
 
@@ -22,7 +22,7 @@ async function getRouteByCityStreet(req,res) {
     const node = findClosestNode(noeuds, 4.836028412790716, 45.76666866638335 );
     const test = node.longitude + ", " + node.latitude;
     const test2 =  "45.76666866638335, 4.836028412790716";
-    const wayToNode = routeController.getDirectionsByCommuneRue(test, test2);
+    const wayToNode = googleRequest.getDirectionsByCommuneRue(test, test2);
     //res.json(node);
     res.json(wayToNode);
     return routes;
@@ -56,6 +56,12 @@ async function buildPolyline (req, res) {
     listeTroncons.forEach(troncon => {
         tabPoints = tabPoints.concat(troncon.coordonnees);
     })
+    const debutPolyline = googleRequest.getDirectionsByCommuneRue('adresseDepart', 'adresseArrivee');
+    const finPolyline = googleRequest.getDirectionsByCommuneRue('adresseDepart', 'adresseArrivee');
+    const tabPointsDebut  = polyline.decode(debutPolyline);
+    const tabPointsFin = polyline.decode(finPolyline);
+    tabPoints = tabPointsDebut.concat(tabPoints);
+    tabPoints = tabPoints.concat(tabPointsFin);
     const polRes = polyline.encode(tabPoints);
     res.json(polRes);
 }
