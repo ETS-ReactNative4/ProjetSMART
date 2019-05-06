@@ -5,11 +5,10 @@ export default StyleSheet.create({
     flex: 1
   },
   hautAccueil: {
-    backgroundColor: 'blue',
-    flex: 3
+    flex: 1,
+    backgroundColor: '#2A2E43'
   },
   carte: {
-    backgroundColor: 'yellow',
     flex: 8
   },
   boutonSignalement: {
