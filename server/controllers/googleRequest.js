@@ -13,7 +13,7 @@ function getDirections(req, res) {
     .asPromise()
     .then((response) => {
       // console.log(response.json.routes[0].legs);
-      res.json(response.json.routes[0]);
+      res.json(response.json.routes[0].overview_polyline);
     })
     .catch((err) => {
       console.log(err);

@@ -21,9 +21,14 @@ module.exports = {
     }],
     'no-underscore-dangle': 'off',
     "react/destructuring-assignment": 'off',
+<<<<<<< HEAD
     "react/prefer-stateless-function": 'off',
     "linebreak-style": 'off',
     "react/jsx-one-expression-per-line": { "allow": "single-child" }
+=======
+    "react/jsx-one-expression-per-line": { "allow": "single-child" },
+    "linebreak-style": "off",
+>>>>>>> mapAndAutocomplete
   },
   'globals': {
     "fetch": false
