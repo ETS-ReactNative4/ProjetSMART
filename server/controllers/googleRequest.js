@@ -36,7 +36,41 @@ function getDirectionsByCommuneRue(depart, destination) {
     });
 }
 
+async function getCommuneAndRue(lat, long) {
+  const tabLatLong = [lat, long];
+  googleMapsClient.reverseGeocode({
+    latlng: tabLatLong,
+    result_type: ['street_address'],
+    language: 'fr'
+  })
+    .asPromise()
+    .then((response) => {
+      let tabRes = response.json.results[0].address_components;
+      let communeRes;
+      let rueRes;
+      for (let i = 0; i < tabRes.length; i++) {
+        if (tabRes[i].types[0] === 'route') {
+          rueRes = tabRes[i].long_name;
+        } else if (tabRes[i].types[0] === 'locality') {
+          communeRes = tabRes[i].long_name;
+        }
+      }
+      const res = {
+        commune: communeRes,
+        rue: rueRes
+      }
+      console.log(res);
+      return new Promise((result, err) => {
+        result(res);
+      })
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
 module.exports = {
   getDirections,
-  getDirectionsByCommuneRue
+  getDirectionsByCommuneRue,
+  getCommuneAndRue
 }

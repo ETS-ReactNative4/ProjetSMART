@@ -1,5 +1,3 @@
-const routeService = require('../controllers/routeController');
-
 const fillDataBase = (fichier) => {
   return new Promise((res, err) => {
     const { spawn } = require('child_process');

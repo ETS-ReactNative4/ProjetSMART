@@ -7,14 +7,15 @@ const polyline = require('@mapbox/polyline');
 const fs = require('fs');
 
 async function mainDirections(req, res) {
-  const latitudeOrigine = req.query.latOrigine;
-  const longitudeOrigine = req.query.longOrigine;
-  // trouver à partir de ça le reste 
-  const latitudeDestination = req.query.latDestination;
-  const longitudeDestination = req.query.longDestination;
+  const latitudeOrigine = parseFloat(req.query.latOrigine);
+  const longitudeOrigine = parseFloat(req.query.longOrigine);
+  const resOrigine = await googleRequest.getCommuneAndRue(latitudeOrigine, longitudeOrigine);
+  console.log(resOrigine);
+  const latitudeDestination = parseFloat(req.query.latDestination);
+  const longitudeDestination = parseFloat(req.query.longDestination);
   const communeDestination = req.query.commDestination;
   const rueDestination = req.query.rueDestination;
-  const closestStart = await getClosestNoeud(communeOrigine, rueOrigine, latitudeOrigine, longitudeOrigine);
+  const closestStart = await getClosestNoeud(resOrigine.commune, resOrigine.rue, latitudeOrigine, longitudeOrigine);
   const closestEnd = await getClosestNoeud(communeDestination, rueDestination, latitudeDestination, longitudeDestination);
   const itineraireStart = closestStart.latitude + ", " + closestStart.longitude;
   const itineraireEnd = closestEnd.latitude + ", " + closestEnd.longitude;
@@ -90,7 +91,7 @@ function findClosestNode(noeuds, latStart, longStart) {
   let node = noeuds[0];
   let distTempo = 0;
   for (let i in noeuds) {
-      distTempo = calculateDistance(latStart, longStart, parseFloat(noeuds[i].latitude), parseFloat(noeuds[i].longitude));
+      distTempo = calculateDistance(latStart, longStart, noeuds[i].latitude, noeuds[i].longitude);
       if(distTempo<distance){
           distance = distTempo;
           node = noeuds[i];
