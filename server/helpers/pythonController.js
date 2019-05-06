@@ -1,9 +1,9 @@
 const routeService = require('../controllers/routeController');
 
-const fillDataBase = (liste) => {
+const fillDataBase = (fichier) => {
   return new Promise((res, err) => {
     const { spawn } = require('child_process');
-    const pyProg = spawn('python', ['server/pythonCode/Dijkstra.py', JSON.stringify(liste)]);
+    const pyProg = spawn('python', ['server/pythonCode/Dijkstra.py', fichier]);
     pyProg.stdout.on('data', function(data) {
         res(data.toString());
     });
