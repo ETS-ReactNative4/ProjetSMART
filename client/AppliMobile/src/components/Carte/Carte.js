@@ -40,9 +40,9 @@ export default class Map extends Component {
 
   async _getDirections(coordinates, destinationLoc) {
     try {
-      const respJson = await googleService.getDirections(coordinates, destinationLoc);
-      console.log('respJson');
-      const points = Polyline.decode(respJson.points);
+      // const respJson = await googleService.getDirections(coordinates, destinationLoc);
+      // console.log('respJson');
+      const points = Polyline.decode('mwlvGyfx\\cC~GWl@Gi@]mCa@gCqCqRo@kF`ASxCJnCN~@DfCBNbA@d@rAlCd@dAeAzAc@j@SXgAbDg@rArk@baHD?L@zA@F?BCFEhlFgwDQEg@]');
       const coords = points.map(point => ({
         latitude: point[0],
         longitude: point[1]

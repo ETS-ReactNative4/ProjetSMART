@@ -6,8 +6,8 @@ async function getAllTroncons() {
 }
 
 async function getRouteByCityStreet(uneCommune,uneRue) {
-  const RoutesCityStreet = await Troncon.find({commune: uneCommune,rue: uneRue});
-  return RoutesCityStreet;
+  const routesCityStreet = await Troncon.find({commune: uneCommune,rue: uneRue});
+  return routesCityStreet;
 }
 
 async function getTronconsbyId(tabIdTroncons) {
@@ -16,6 +16,7 @@ async function getTronconsbyId(tabIdTroncons) {
       $in: tabIdTroncons
     }
   })
+  console.log(troncons);
   return troncons; 
 }
 

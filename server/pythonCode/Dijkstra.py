@@ -2,7 +2,6 @@ import json as js
 import math as Math
 import sys
 import json
-import io
 from heapq import heappop, heappush
 
 class Noeud:
@@ -137,7 +136,8 @@ def getLatLngFromString(aString):
 
 
 def dijkstra(graph, weight, source=0, target=None):
-    assert all(weight[graph[u][v]] >= 0 for u, g in graph.items() for v, y in graph[u].items())
+    n = len(graph)
+    assert all(float(weight[graph[u][v]].Longueur) >= 0 for u, g in graph.items() for v, y in graph[u].items())
     prec = {source: None}
     black = {}
     dist = {source: 0}
@@ -149,7 +149,7 @@ def dijkstra(graph, weight, source=0, target=None):
             if node == target:
                 break
             for neighbor, codeTroncon in graph[node].items():
-                dist_neighbor = dist_node + weight[graph[node][neighbor]]
+                dist_neighbor = dist_node + float(weight[graph[node][neighbor]].Longueur)
                 if (neighbor not in dist) or (dist_neighbor < dist[neighbor]):
                     dist[neighbor] = dist_neighbor
                     prec[neighbor] = node
@@ -158,28 +158,23 @@ def dijkstra(graph, weight, source=0, target=None):
 
 
 if __name__ == "__main__":
-    #longueursModifiees : Map<CodeTroncon, longueurs modifiees>
+    #codeNoeudsNoeuds : Map<CodeNoeud, Noeud>
+    #codeTronconTroncon : Map<CodeTroncon, Troncon>
     #mapDijkstra : Map<CodeNoeud, Map<CodeNoeud, CodeTroncon>>
     mapDijkstra =  {}
-    with io.open("server/pythonCode/donnees_map_Dijkstra.json", "r", encoding='UTF-8') as openMap:
+    with open("server/pythonCode/donnees_map_Dijkstra.json", "r", encoding='UTF-8') as openMap:
       mapDijkstra = json.load(openMap)
+    print(json.dumps([mapDijkstra["N150"]["N24961"]],indent=4))
 
-    fichier = sys.argv[1]
-    #recuperation des troncons
-    troncons = []
-    with io.open(fichier[1:-1], "r", encoding='UTF-8') as openTroncons:
-        troncons = json.load(openTroncons)
-    #Creation de la map des longueurs modifiees
-    longueursModifiees = {}
-    for t in troncons:
-        longueursModifiees[t[0]] = float(t[1])
-
-    pointDepart = "N150"
-    pointArrivee = "N24961"
-    dist, prec = dijkstra(mapDijkstra, longueursModifiees, pointDepart, pointArrivee)
+    # for arg in sys.argv:
+    #     print(arg)
+    '''pointDepart = codeTronconTroncon["T3223"].NoeudDepart
+    pointArrivee = codeTronconTroncon["T23410"].NoeudDepart
+    dist, prec = dijkstra(mapDijkstra, codeTronconTroncon, pointDepart, pointArrivee)
     trajet = []
     parc = pointArrivee
     while prec[parc] != None:
-        trajet.insert(0, mapDijkstra[parc][prec[parc]])
+        trajet.insert(0, codeTronconTroncon[mapDijkstra[parc][prec[parc]]].rue)
         parc = prec[parc]
-    print(json.dumps(trajet, indent = 4))
+    print("trajet : ", trajet)
+    print(codeTronconTroncon["T39070"].rue)'''
