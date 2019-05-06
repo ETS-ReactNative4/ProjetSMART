@@ -21,7 +21,8 @@ module.exports = {
     }],
     'no-underscore-dangle': 'off',
     "react/destructuring-assignment": 'off',
-    "react/jsx-one-expression-per-line": { "allow": "single-child" }
+    "react/jsx-one-expression-per-line": { "allow": "single-child" },
+    "linebreak-style": "off",
   },
   'globals': {
     "fetch": false

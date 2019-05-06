@@ -1,17 +1,13 @@
-/* eslint-disable linebreak-style */
 /* eslint-disable react/prefer-stateless-function */
 import React from 'react';
+import { connect } from 'react-redux';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import { updateDestination } from '../../actions/index';
 import { API_KEY_GOOGLE_DIRECTIONS } from '../../../secret/api_key';
-
-const windowSize = require('Dimensions').get('window')
-;
-const deviceWidth = windowSize.width;
-const deviceHeight = windowSize.height;
 
 const LYON = { lat: 45.7725141, lng: 4.884116 };
 
-export default class GoogleAutocomplete extends React.Component {
+class GoogleAutocomplete extends React.Component {
   render() {
     return (
       <GooglePlacesAutocomplete
@@ -20,8 +16,9 @@ export default class GoogleAutocomplete extends React.Component {
         autoFocus={false}
         returnKeyType="default"
         fetchDetails
-        onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
-          console.log(details.geometry.location);
+        onPress={(data, details = null) => { 
+          // 'details' is provided when fetchDetails = true
+          this.props.updateDestination(details.geometry.location.lat, details.geometry.location.lng);
         }}
         query={{
           // available options: https://developers.google.com/places/web-service/autocomplete
@@ -61,3 +58,17 @@ export default class GoogleAutocomplete extends React.Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return { destination: state.destination };
+}
+
+
+const mapDispatchToProps = dispatch => ({
+  updateDestination: (lat, lng) => dispatch(updateDestination(lat, lng))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(GoogleAutocomplete);
