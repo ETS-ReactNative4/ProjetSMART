@@ -5,15 +5,12 @@ export default StyleSheet.create({
     flex: 1
   },
   hautAccueil: {
-    backgroundColor: 'blue',
-    flex: 3
+    flex: 1,
   },
   carte: {
-    backgroundColor: 'yellow',
     flex: 8
   },
   boutonSignalement: {
     flex: 1,
-    justifyContent: 'center'
   }
 });

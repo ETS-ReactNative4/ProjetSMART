@@ -3,9 +3,7 @@ import BoutonLetsGo from '../../components/BoutonLetsGo/BoutonLetsGo';
 
 export default StyleSheet.create({
   container: {
-    backgroundColor: 'black',
-    flex: 14,
-    paddingTop: 30
+    flex: 14
   },
   hautItineraire: {
     backgroundColor: '#2A2E43',

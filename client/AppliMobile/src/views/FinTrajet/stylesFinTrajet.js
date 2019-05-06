@@ -2,7 +2,6 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   container: {
-    backgroundColor: 'green',
     flex: 1
   },
   titre: {
@@ -13,7 +12,6 @@ export default StyleSheet.create({
     textAlign: 'center'
   },
   resume: {
-    backgroundColor: 'white',
     flex: 6
   },
   note: {
