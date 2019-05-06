@@ -2,7 +2,7 @@
 /* eslint-disable react/prefer-stateless-function */
 import React, { Component } from 'react';
 import { AppRegistry, View } from 'react-native';
-import { Provider, connect } from 'react-redux';
+import { Provider } from 'react-redux';
 import GoogleAutocomplete from './src/components/googleAutocomplete/googleAutocomplete';
 import Map from './src/components/map/map';
 
