@@ -15,12 +15,45 @@ async function getTronconsbyId(IdTroncon) {
   const troncon = await Troncon.findOne({
     'codeTroncon': IdTroncon
   })
-  console.log(troncon);
-  return troncon; 
+  return troncon;
 }
+
+async function updateTronconsProblems(query, modif, res){
+  if (!!query[modif]) {
+    let nouvCompteur = query[modif] + 1;
+    let jsonObjet = {};
+    jsonObjet[modif] = nouvCompteur;
+    Troncon.findOneAndUpdate({codeTroncon : query.codeTroncon}, {$set: jsonObjet}, {upsert:true}, function(err, doc){
+    if (err) return res.status(500).send({ error: err });
+      return res.status(200).send("succesfully saved");
+  });
+  } else {
+    let jsonObjet = {};
+    jsonObjet[modif] = 1;
+    Troncon.findOneAndUpdate({codeTroncon : query.codeTroncon}, {$set: jsonObjet}, {upsert:true}, function(err, doc){
+      if (err) return res.status(500).send({ error: err });
+      return res.status(200).send("succesfully saved");
+  });
+  }
+
+
+}
+async function getTronconsByNoeudDepartCityStreet(nameNoeud, uneCommune, uneRue) {
+  const tronconNoeudDepart = await Troncon.find({commune: uneCommune, rue: uneRue, NoeudDepart : nameNoeud});
+  return tronconNoeudDepart;
+}
+
+async function getTronconsByNoeudArriveeCityStreet(nameNoeud, uneCommune, uneRue) {
+  const tronconNoeudArrivee = await Troncon.find({commune: uneCommune, rue: uneRue, NoeudArrivee : nameNoeud});
+  return tronconNoeudArrivee;
+}
+
 
 module.exports = {
   getAllTroncons,
   getRouteByCityStreet,
-  getTronconsbyId
+  getTronconsbyId,
+  getTronconsByNoeudDepartCityStreet,
+  getTronconsByNoeudArriveeCityStreet,
+  updateTronconsProblems
 };
