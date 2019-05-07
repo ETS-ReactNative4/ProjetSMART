@@ -4,6 +4,7 @@ import { Icon } from 'react-native-elements';
 import styles from './stylesBoutonSignalement';
 
 export default class BoutonSignalement extends React.Component {
+  
   state = {
     start: true
   }
