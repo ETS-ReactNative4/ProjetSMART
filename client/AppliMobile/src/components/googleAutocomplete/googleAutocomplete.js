@@ -17,7 +17,11 @@ class GoogleAutocomplete extends React.Component {
         returnKeyType="default"
         fetchDetails
         onPress={(data, details = null) => {
-          this.props.updateDestination(details.geometry.location.lat, details.geometry.location.lng);
+          const lat = details.geometry.location.lat;
+          const lng = details.geometry.location.lng;
+          const commune = data.terms[2].value;
+          const route = data.terms[1].value;
+          this.props.updateDestination(lat, lng, commune, route);
         }}
         query={{
           // available options: https://developers.google.com/places/web-service/autocomplete
@@ -62,7 +66,7 @@ function mapStateToProps(state) {
 
 
 const mapDispatchToProps = dispatch => ({
-  updateDestination: (lat, lng) => dispatch(updateDestination(lat, lng))
+  updateDestination: (lat, lng, commune, route) => dispatch(updateDestination(lat, lng, commune, route))
 });
 
 export default connect(

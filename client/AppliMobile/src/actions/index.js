@@ -1,7 +1,9 @@
-export const updateDestination = (lat, lng) => ({
+export const updateDestination = (lat, lng, commune, route) => ({
   type: 'UPDATE_DESTINATION',
   lat,
-  lng
+  lng,
+  commune,
+  route
 });
 
 export const updateLocalisation = (lat, lng) => ({
