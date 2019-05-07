@@ -1,125 +1,117 @@
 import React from 'react';
-import { View, Button, Alert } from 'react-native';
-import styles from './stylesBoutonSignalement';
-import { Icon } from 'react-native-elements';
-import MarkersTypes from '../MarkerTypes/MarkerTypes';
+import {
+  StyleSheet,
+  View,
+  Text,
+  Dimensions,
+  TouchableOpacity,
+  Platform,
+} from 'react-native';
 
-export default class BoutonSignalement extends React.Component {
+import MapView, { ProviderPropType, Marker, AnimatedRegion } from 'react-native-maps';
 
-  state = {
-    start: true
+const screen = Dimensions.get('window');
+
+const ASPECT_RATIO = screen.width / screen.height;
+const LATITUDE = 37.78825;
+const LONGITUDE = -122.4324;
+const LATITUDE_DELTA = 0.0922;
+const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+
+class AnimatedMarkers extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      coordinate: new AnimatedRegion({
+        latitude: LATITUDE,
+        longitude: LONGITUDE,
+      }),
+    };
   }
 
-  _envoyerSignalement = (signalement, latitude, longitude, error) => {
-    const message = {
-      signalement: signalement,
-      latitude: latitude,
-      longitude: longitude,
-      error: error
+  animate() {
+    const { coordinate } = this.state;
+    const newCoordinate = {
+      latitude: LATITUDE + ((Math.random() - 0.5) * (LATITUDE_DELTA / 2)),
+      longitude: LONGITUDE + ((Math.random() - 0.5) * (LONGITUDE_DELTA / 2)),
+    };
+
+    if (Platform.OS === 'android') {
+      if (this.marker) {
+        this.marker._component.animateMarkerToCoordinate(newCoordinate, 500);
+      }
+    } else {
+      coordinate.timing(newCoordinate).start();
     }
-
-    Alert.alert( "" , JSON.stringify(message) );
-  }
-
-  _signaler = (signalement) => {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        this._envoyerSignalement(signalement, position.coords.latitude, position.coords.longitude, null);
-      },
-      (error) => {
-        this._envoyerSignalement(signalement, null, null, error.message);
-      },
-      { enableHighAccuracy: true, timeout: 1000, maximumAge: 1000 },
-    );
-    this._onPressRetour();
-  }
-
-  _onPressSignalement = () => {
-    this.setState({start: false});
-  }
-
-  _onPressRetour = () => {
-    this.setState({start: true});
   }
 
   render() {
-    if(this.state.start)
-    {
-      return (
-        <View style={styles.container} >
-          <Icon
-            raised
-            style={styles.bouton}
-            name='exclamation'
-            type='font-awesome'
-            color='#f50'
-            onPress={this._onPressSignalement}
+    return (
+      <View style={styles.container}>
+        <MapView
+          provider={this.props.provider}
+          style={styles.map}
+          initialRegion={{
+            latitude: LATITUDE,
+            longitude: LONGITUDE,
+            latitudeDelta: LATITUDE_DELTA,
+            longitudeDelta: LONGITUDE_DELTA,
+          }}
+        >
+          <Marker.Animated
+            ref={marker => { this.marker = marker; }}
+            coordinate={this.state.coordinate}
           />
+        </MapView>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            onPress={() => this.animate()}
+            style={[styles.bubble, styles.button]}
+          >
+            <Text>Animate</Text>
+          </TouchableOpacity>
         </View>
-      );
-    }
-    else
-    {
-      return (
-        <View style={styles.container} >
-          <Icon
-            raised
-            style={styles.bouton}
-            name='lightbulb-o'
-            type='font-awesome'
-            color='#f50'
-            onPress={() => {this._signaler("Eclairage")} }
-          />
-          <Icon
-            raised
-            style={styles.bouton}
-            name='exclamation-triangle'
-            type='font-awesome'
-            color='#f50'
-            onPress={() => {this._signaler("Travaux")} }
-          />
-          <Icon
-            raised
-            style={styles.bouton}
-            name='close'
-            type='font-awesome'
-            color='#f50'
-            onPress={() => {this._signaler("Ferme")} }
-          />
-          <Icon
-            raised
-            style={styles.bouton}
-            name='road'
-            type='font-awesome'
-            color='#f50'
-            onPress={() => {this._signaler("EtatRoute")} }
-          />
-          <Icon
-            raised
-            style={styles.bouton}
-            name='security'
-            type='material-icons'
-            color='#f50'
-            onPress={() => {this._signaler("Securite")} }
-          />
-          <Icon
-            raised
-            style={styles.bouton}
-            name='heart'
-            type='font-awesome'
-            color='#f50'
-            onPress={() => {this._signaler("Interet")} }
-          />
-          <Icon
-            raised
-            style={styles.bouton}
-            name='back'
-            type='antdesign'
-            color='#f50'
-            onPress={this._onPressRetour}
-          />
-        </View>
-      );
-    }
+      </View>
+    );
   }
 }
+
+AnimatedMarkers.propTypes = {
+  provider: ProviderPropType,
+};
+
+const styles = StyleSheet.create({
+  container: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  map: {
+    ...StyleSheet.absoluteFillObject,
+  },
+  bubble: {
+    flex: 1,
+    backgroundColor: 'rgba(255,255,255,0.7)',
+    paddingHorizontal: 18,
+    paddingVertical: 12,
+    borderRadius: 20,
+  },
+  latlng: {
+    width: 200,
+    alignItems: 'stretch',
+  },
+  button: {
+    width: 80,
+    paddingHorizontal: 12,
+    alignItems: 'center',
+    marginHorizontal: 10,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    marginVertical: 20,
+    backgroundColor: 'transparent',
+  },
+});
+
+export default AnimatedMarkers;
