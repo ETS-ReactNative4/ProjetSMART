@@ -16,6 +16,7 @@ class Carte extends Component {
     this.state = {
       mapRegion: { latitude: -33.872659, longitude: 151.206116, latitudeDelta: 0.0922, longitudeDelta: 0.0421 },
       geolocalisation: null,
+      locationActuel: {coords: { latitude: 37.78825, longitude: -122.4324}},
       tabPoints: []
     };
   }
@@ -37,7 +38,7 @@ class Carte extends Component {
       });
     }
     const locationActuel = await Location.getCurrentPositionAsync({});
-    this.setState({ geolocalisation: JSON.stringify(locationActuel) });
+    this.setState({ geolocalisation: JSON.stringify(locationActuel), locationActuel });
   };
 
   async _getDirections() {
@@ -85,7 +86,7 @@ class Carte extends Component {
           <MapView.Marker
           onPress={() => this.setState({ marker1: !this.state.marker1 })}
           //attention geolocalisation nécessite d'etre initialiser avec des valeurs par défauts
-          coordinate={this.state.geolocalisation}
+          coordinate={this.state.locationActuel.coords}
          
           ref={marker => { this.marker = marker }}
           // transforme le flagblue en flag pink
