@@ -17,8 +17,8 @@ class GoogleAutocomplete extends React.Component {
         returnKeyType="default"
         fetchDetails
         onPress={(data, details = null) => {
-          const lat = details.geometry.location.lat;
-          const lng = details.geometry.location.lng;
+          const { lat } = details.geometry.location;
+          const { lng } = details.geometry.location;
           const commune = data.terms[2].value;
           const route = data.terms[1].value;
           this.props.updateDestination(lat, lng, commune, route);
