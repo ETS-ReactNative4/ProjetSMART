@@ -4,9 +4,7 @@ import API from './api';
 const googleService = {
   async getDirections(coordinates, destinationLoc) {
     const co = JSON.parse(coordinates);
-    const origin = co.coords.latitude + ',' + co.coords.longitude;
-    const destination = destinationLoc.lat + ',' + destinationLoc.lng;
-    const res = await API.get('api/directions?origin=' + origin + '&destination=' + destination);
+    const res = await API.get('api/directions?latOrigine=' + co.coords.latitude + '&longOrigine=' + co.coords.longitude + '&latDestination=' + destinationLoc.lat + '&longDestination=' + destinationLoc.lng + '&commDestionation=' + destinationLoc.commune + '&rueDestination=' + destinationLoc.route);
     return res.data;
   }
 };

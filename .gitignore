@@ -8,4 +8,6 @@ npm-debug.log*
 
 .vscode
 secret
+./server/config/web.js
+./client/AppliMobile/src/services/api.js
 server/helpers/findIP.js

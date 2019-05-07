@@ -2,18 +2,18 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   container: {
-    backgroundColor: 'green',
     flex: 1
   },
   titre: {
-    backgroundColor: '#D5D5D5',
+    backgroundColor: '#2A2E43',
+    color:'#ffffff',
     flex: 1,
     fontWeight: 'bold',
     fontSize: 30,
     textAlign: 'center'
   },
   resume: {
-    backgroundColor: 'white',
+    backgroundColor: '#D5D5D5',
     flex: 6
   },
   note: {

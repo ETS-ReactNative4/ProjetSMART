@@ -43,6 +43,7 @@ export default class NoteTrajet extends React.Component {
                     <Button
                         onPress={this._onPress}
                         title="Sommettre votre note"
+                        color="#C840E9"
                     />
                 </View>
             </View>

@@ -5,8 +5,10 @@ import { connect } from 'react-redux';
 import { Location, Permissions } from 'expo';
 import MapView from 'react-native-maps';
 import Polyline from '@mapbox/polyline';
+import { updateLocalisation } from '../../actions/index';
 import styles from './styleCarte';
 import googleService from '../../services/googleService';
+import MarkerPerso from '../MarkerPerso/MarkerPerso';
 
 
 class Carte extends Component {
@@ -14,7 +16,6 @@ class Carte extends Component {
     super(props);
     this.state = {
       mapRegion: { latitude: -33.872659, longitude: 151.206116, latitudeDelta: 0.0922, longitudeDelta: 0.0421 },
-      geolocalisation: null,
       tabPoints: []
     };
   }
@@ -31,29 +32,26 @@ class Carte extends Component {
   _getLocationAsync = async () => {
     const { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== 'granted') {
-      this.setState({
-        geolocalisation: 'Permission to access location was denied',
-      });
+      alert('acces denied for geolocalisation');
     }
     const locationActuel = await Location.getCurrentPositionAsync({});
-    this.setState({ geolocalisation: JSON.stringify(locationActuel) });
+    this.props.updateLocalisation(locationActuel.coords.latitude, locationActuel.coords.longitude);
+    console.log(this.props);
   };
 
   async _getDirections() {
     try {
-      // const respJson = await googleService.getDirections(coordinates, destinationLoc);
-      // console.log('respJson');
-      const points = Polyline.decode('mwlvGyfx\\h@aBD?d@sA??`@nA??FCHEzAeA??VSHEBCzAgALIPK??Xr@LD??L`@v@dBLH??H`@v@jBxAfDTV??dEq@??fGgAhAQbAMTE??`Ce@??`Cc@??xB_@??xCO??tCQTAL@??EfB??lLRTJ??rCHfA???RFbCE??pCI??`BC??|AE??nAEVC??nBG??hE[??nF_@??t@Ev@E??LA`BGz@E??lCL`AD??~BL??b@@`@Bl@Bl@Bx@D???EDEBEF?B@??FH@F??D?hAD`@A??zBK??PbA??`ApF??RfAVrAH`@??R|@??h@nBLf@DP??NIHEbBk@j@IHALD??tI~@Z?x@H??XFxCx@J@??ALeAnJ??bCr@??lDzA??t@V??TBjBt@HH??DDhA^t@X??ZJ??jAl@??jCnA??`@T??|CxA??\\NbFpB??tCjA??lChAHD??pC~A??vDtB??jAz@??pBzA??`F|D??L?z@r@HZ??|CnCPN??\\AdF~CRX??tAfA??pGpECIQEg@]');
-
+      const destinationLoc = this.props.destination;
+      const coordinates = this.props.geolocalisation;
+      const respJson = await googleService.getDirections(coordinates, destinationLoc);
+      const points = Polyline.decode(respJson.points);
       const coords = points.map(point => ({
         latitude: point[0],
         longitude: point[1]
       }));
-      console.log("après coords");
       this.setState({ tabPoints: coords });
       return this.state.tabPoints;
     } catch (error) {
-      console.log("l'eerreur du cul");
       alert(error);
       return error;
     }
@@ -76,19 +74,34 @@ class Carte extends Component {
             strokeWidth={2}
             strokeColor="red"
           />
+          {this.props.markerList.map(marker => (
+            <MarkerPerso
+              localisation={marker.localisation}
+            />
+          ))}
         </MapView>
         <Button title="Test Connection" onPress={() => this._getDirections()} />
+
       </View>
     );
   }
 }
 
 function mapStateToProps(state) {
-  return { destination: state.destination };
+  return {
+    destination: state.destination,
+    localisation: state.localisation,
+    markerList: state.markerList
+  };
 }
 
+const mapDispatchToProps = dispatch => ({
+  updateLocalisation: (lat, lng) => dispatch(updateLocalisation(lat, lng))
+});
+
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(Carte);
 
 /*
