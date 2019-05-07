@@ -13,10 +13,11 @@ async function mainDirections(req, res) {
   const resOrigine = await googleRequest.getCommuneAndRue(latitudeOrigine, longitudeOrigine);
   const latitudeDestination = parseFloat(req.query.latDestination);
   const longitudeDestination = parseFloat(req.query.longDestination);
-  const communeDestination = req.query.commDestination.toUpperCase();
-  const rueDestination = req.query.rueDestination;
+  const resDestination = await googleRequest.getCommuneAndRue(latitudeDestination, longitudeDestination);
+  // const communeDestination = req.query.commDestination.toUpperCase();
+  // const rueDestination = req.query.rueDestination;
   const closestStart = await getClosestNoeud(resOrigine.commune.toUpperCase(), resOrigine.rue, latitudeOrigine, longitudeOrigine);
-  const closestEnd = await getClosestNoeud(communeDestination, rueDestination, latitudeDestination, longitudeDestination);
+  const closestEnd = await getClosestNoeud(resDestination.commune.toUpperCase(), resDestination.rue, latitudeDestination, longitudeDestination);
   const itineraireStart = closestStart.latitude + ", " + closestStart.longitude;
   const itineraireEnd = closestEnd.latitude + ", " + closestEnd.longitude;
   const polylineStart = await googleRequest.getDirectionsByCommuneRue(latitudeOrigine + "," + longitudeOrigine, itineraireStart);
