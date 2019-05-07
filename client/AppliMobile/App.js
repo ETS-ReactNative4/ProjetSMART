@@ -1,10 +1,5 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { View, Button } from 'react-native';
-import Recherche from './src/views/Recherche/Recherche';
-import Accueil from './src/views/Accueil/Accueil';
-import Itineraire from './src/views/Itineraire/Itineraire';
-import FinTrajet from './src/views/FinTrajet/FinTrajet';
 import configureStore from './src/reducers/index';
 import AppNavigator from './src/navigation/AppNavigator';
 

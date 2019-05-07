@@ -1,13 +1,9 @@
 import React from 'react';
-import { View, Button } from 'react-native';
+import { View } from 'react-native';
 import { connect } from 'react-redux';
 import Carte from '../../components/Carte/Carte';
-import HautItineraire from '../../components/HautItineraire/HautItineraire';
 import BoutonSignalement from '../../components/BoutonSignalement/BoutonSignalement';
-import RechercheLieu from '../../components/RechercheLieu/RechercheLieu';
 import styles from './stylesItineraire';
-import ChampsRecherche from '../../components/ChampsRecherche/ChampsRecherche';
-import BoutonRecherche from '../../components/BoutonRecherche/BoutonRecherche';
 import BasItineraire from '../../components/BasItineraire/BasItineraire';
 import BoutonLetsGo from '../../components/BoutonLetsGo/BoutonLetsGo';
 

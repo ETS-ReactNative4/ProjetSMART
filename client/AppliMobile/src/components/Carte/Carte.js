@@ -45,7 +45,9 @@ class Carte extends Component {
       console.log(coordinates);
       console.log(destinationLoc);
       const respJson = await googleService.getDirections(coordinates, destinationLoc);
-      const points = Polyline.decode(respJson.points);
+      console.log(respJson);
+      const points = Polyline.decode(respJson);
+      console.log(points);
       const coords = points.map(point => ({
         latitude: point[0],
         longitude: point[1]
