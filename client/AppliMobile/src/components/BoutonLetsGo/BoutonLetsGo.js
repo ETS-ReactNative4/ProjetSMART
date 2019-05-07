@@ -1,9 +1,8 @@
 import React from 'react';
 import { Button, Alert } from 'react-native';
-// import styles from './stylesBoutonProfil';
+// import styles from './stylesBoutonSignalement';
 
-export default class BoutonProfil extends React.Component {
-  
+export default class BoutonLetsGo extends React.Component {
   _onPress = () => {
     Alert.alert("Et non! Ca n'est pas encore codé :'(");
   }
@@ -12,7 +11,7 @@ export default class BoutonProfil extends React.Component {
     return (
       <Button
         onPress={this._onPress}
-        title="Profil"
+        title="LET'S GO !"
         color="#C840E9"
       />
     );

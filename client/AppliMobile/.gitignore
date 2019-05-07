@@ -6,3 +6,5 @@ npm-debug.*
 *.key
 *.mobileprovision
 secret
+../server/config/web.js
+./src/services/api.js
