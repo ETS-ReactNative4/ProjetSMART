@@ -129,6 +129,7 @@ async function buildPolyline (polylineStart, polylineEnd, listeIdTroncon, noeudD
 }
 
 async function updateDatabase (req, res){
+  //TODO TRANSFORMER COMMUNE ET RUE PAR LAT LONG
   const routes = await tronconService.getRouteByCityStreet(req.query.commune, req.query.rue);
   const lat = 45.76144417091839;
   const long = 4.835691535864809;
@@ -141,42 +142,19 @@ async function updateDatabase (req, res){
     noeuds.push(noeudArrivee[0]);
   }
   const node = findClosestNode(noeuds, lat, long);
-  console.log("Node " + node);
   let tronconsDepart = await tronconService.getTronconsByNoeudDepartCityStreet(node.name, req.query.commune, req.query.rue);
   let tronconsArrive = await tronconService.getTronconsByNoeudArriveeCityStreet(node.name, req.query.commune, req.query.rue);
-  console.log("TRONCONS DEPART " + tronconsDepart);
-  console.log("TRONCONS ARRIVEE " + tronconsArrive);
   const noeud1 = await noeudService.getNoeudByCode(tronconsDepart[0].NoeudDepart);
-  console.log("Noeud 1 " + noeud1[0].name);
   const noeud2 = await noeudService.getNoeudByCode(tronconsDepart[0].NoeudArrivee);
-  console.log("Noeud 2 " + noeud2[0].name);
   const noeud3 = await noeudService.getNoeudByCode(tronconsArrive[0].NoeudDepart);
-  console.log("Noeud 3 " + noeud3[0].name);
   const noeud4 = await noeudService.getNoeudByCode(tronconsArrive[0].NoeudArrivee);
-  console.log("Noeud 4 " + noeud4[0].name);
-  console.log("Noeud 1 latitude " + noeud1[0].latitude);
-  console.log("Noeud 1 longitude " + noeud1[0].longitude);
-  console.log("Noeud 2 latitude " + noeud2[0].latitude);
-  console.log("Noeud 2 longitude " + noeud2[0].longitude);
-  console.log("Latitude " + lat);
-  console.log("Longitude " + long);
   let distance1 = await projection(noeud1[0].latitude, noeud1[0].longitude, noeud2[0].latitude, noeud2[0].longitude, lat, long);
-  console.log("Distance 1 " + distance1);
-  console.log("Noeud 3 latitude " + noeud3[0].latitude);
-  console.log("Noeud 3 longitude " + noeud3[0].longitude);
-  console.log("Noeud 4 latitude " + noeud4[0].latitude);
-  console.log("Noeud 4 longitude " + noeud4[0].longitude);
-  console.log("Latitude " + lat);
-  console.log("Longitude " + long);
   let distance2 = await projection(noeud3[0].latitude, noeud3[0].longitude, noeud4[0].latitude, noeud4[0].longitude, lat, long);
-  console.log("Distance 2 " + distance2);
   if (distance1 < distance2) {
     retour = tronconsDepart[0];
-    console.log("CHUPA MI POLLA HIJO DE PUTE");
 
   } else {
     retour = tronconsArrive[0];
-    console.log("FLORIAN MUTIN");
 
   }
 
