@@ -5,37 +5,18 @@ import HautItineraire from '../../components/HautItineraire/HautItineraire';
 import BoutonSignalement from '../../components/BoutonSignalement/BoutonSignalement';
 import RechercheLieu from '../../components/RechercheLieu/RechercheLieu';
 import styles from './stylesItineraire';
-import ContainerRecherche from '../../components/ContainerRecherche/ContainerRecherche';
+import BoutonRecherche from '../../components/BoutonRecherche/BoutonRecherche';
 import BasItineraire from '../../components/BasItineraire/BasItineraire';
 import BoutonLetsGo from '../../components/BoutonLetsGo/BoutonLetsGo';
 
 export default class Itineraire extends React.Component {
   render() {
     return (
-      /*<View style={styles.container}>
-        <View style={styles.hautItineraire}>
-          <HautItineraire/>
-        </View>
-
-        <View style={styles.carte}>
-          <Carte />
-          <View style={styles.rechercheLieu}>
-            <RechercheLieu />
-          </View>
-          <View style={styles.rechercheLieu}>
-            <RechercheLieu />
-          </View>
-        </View>
-
-        <View style={styles.boutonSignalement}>
-          <BoutonSignalement />
-        </View>
-      </View>*/
       <View style={styles.container}>
 
         <View style={styles.carte}>
           <Carte />
-          <ContainerRecherche />
+          <BoutonRecherche />
         </View>
         <BoutonSignalement />
         <View style={styles.basItineraire}>

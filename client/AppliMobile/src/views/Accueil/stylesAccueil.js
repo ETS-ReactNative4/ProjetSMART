@@ -13,7 +13,7 @@ export default StyleSheet.create({
     flex: 8
   },
   boutonSignalement: {
-    flex: 1,
+    flex: 3,
     justifyContent: 'center'
   }
 });

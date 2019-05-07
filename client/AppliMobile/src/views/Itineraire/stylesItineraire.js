@@ -12,7 +12,7 @@ export default StyleSheet.create({
   },
   basItineraire: {
     backgroundColor: '#2A2E43',
-    flex: 2
+    flex: 3
   },
   carte: {
     backgroundColor: 'yellow',
@@ -21,7 +21,8 @@ export default StyleSheet.create({
   boutonSignalement: {
     backgroundColor: '#2A2E43',
     flex: 1,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    paddingBottom: 10
   },
   boutonLetsGo: {
     flex: 1,
