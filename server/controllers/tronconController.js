@@ -13,10 +13,11 @@ async function mainDirections(req, res) {
   const resOrigine = await googleRequest.getCommuneAndRue(latitudeOrigine, longitudeOrigine);
   const latitudeDestination = parseFloat(req.query.latDestination);
   const longitudeDestination = parseFloat(req.query.longDestination);
-  const communeDestination = req.query.commDestination.toUpperCase();
-  const rueDestination = req.query.rueDestination;
-  const closestStart = await getClosestNoeud(resOrigine.commune.toUpperCase, resOrigine.rue, latitudeOrigine, longitudeOrigine);
-  const closestEnd = await getClosestNoeud(communeDestination, rueDestination, latitudeDestination, longitudeDestination);
+  const resDestination = await googleRequest.getCommuneAndRue(latitudeDestination, longitudeDestination);
+  // const communeDestination = req.query.commDestination.toUpperCase();
+  // const rueDestination = req.query.rueDestination;
+  const closestStart = await getClosestNoeud(resOrigine.commune.toUpperCase(), resOrigine.rue, latitudeOrigine, longitudeOrigine);
+  const closestEnd = await getClosestNoeud(resDestination.commune.toUpperCase(), resDestination.rue, latitudeDestination, longitudeDestination);
   const itineraireStart = closestStart.latitude + ", " + closestStart.longitude;
   const itineraireEnd = closestEnd.latitude + ", " + closestEnd.longitude;
   const polylineStart = await googleRequest.getDirectionsByCommuneRue(latitudeOrigine + "," + longitudeOrigine, itineraireStart);
@@ -87,8 +88,6 @@ async function buildPolyline (polylineStart, polylineEnd, listeIdTroncon, noeudD
   return polRes;
 }
 
-<<<<<<< HEAD
-=======
 async function updateDatabase (req, res){
   //TODO TRANSFORMER COMMUNE ET RUE PAR LAT LONG
   const routes = await tronconService.getRouteByCityStreet(req.query.commune, req.query.rue);
@@ -201,7 +200,6 @@ async function projection(lat1, lon1, lat2, lon2, lat, lon){
   async function getMarqueurByIdTroncon(req, res){
     return await marqueurService.getMarqueurById(req.query.codeTroncon);
   }
->>>>>>> d0448a1e8bab038b372a81f5e5e67bad786d423b
 
 module.exports = {
   mainDirections,

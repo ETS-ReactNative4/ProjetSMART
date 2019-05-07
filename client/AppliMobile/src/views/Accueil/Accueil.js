@@ -1,17 +1,35 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Button } from 'react-native';
+import { connect } from 'react-redux';
 import Carte from '../../components/Carte/Carte';
 import HautAccueil from '../../components/HautAccueil/HautAccueil';
 import BoutonSignalement from '../../components/BoutonSignalement/BoutonSignalement';
 import BoutonRecherche from '../../components/BoutonRecherche/BoutonRecherche';
 import styles from './stylesAccueil';
 
-export default class Accueil extends React.Component {
+// eslint-disable-next-line react/prefer-stateless-function
+class Accueil extends React.Component {
   render() {
     return (
       <View style={styles.container}>
 
         <View style={styles.carte}>
+          <Button
+            title="depart"
+            onPress={() => {
+              this.props.navigation.navigate('Recherche', {
+                type: 'depart'
+              });
+            }}
+          />
+          <Button
+            title="arrivee"
+            onPress={() => {
+              this.props.navigation.navigate('Recherche', {
+                type: 'arrivee'
+              });
+            }}
+          />
           <Carte />
           <BoutonRecherche />
         </View>
@@ -23,3 +41,11 @@ export default class Accueil extends React.Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return { destination: state.destination, origine: state.origine };
+}
+
+export default connect(
+  mapStateToProps
+)(Accueil);

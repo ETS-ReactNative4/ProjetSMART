@@ -2,8 +2,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import { updateDestination } from '../../actions/index';
-import { API_KEY_GOOGLE_DIRECTIONS } from '../../../secret/api_key';
+import { updateDestination, updateOrigine } from '../../actions/index';
+import { API_KEY_GOOGLE_DIRECTIONS } from '../../../secret/api_keys';
 
 const LYON = { lat: 45.7725141, lng: 4.884116 };
 
@@ -19,10 +19,20 @@ class GoogleAutocomplete extends React.Component {
         onPress={(data, details = null) => {
           const { lat } = details.geometry.location;
           const { lng } = details.geometry.location;
+          const formatedAdress = details.formatted_address;
+          console.log(formatedAdress);
           const commune = data.terms[2].value;
           const route = data.terms[1].value;
-          this.props.updateDestination(lat, lng, commune, route);
-          // console.log(this.props);
+          if (this.props.type === 'depart') {
+            this.props.updateOrigine(lat, lng, commune, route, formatedAdress);
+          } else {
+            this.props.updateDestination(lat, lng, commune, route, formatedAdress);
+          }
+          if (this.props.origine.lat !== 0 && this.props.destination.lat !== 0) {
+            this.props.navigation.navigate('Itineraire');
+          } else {
+            this.props.navigation.goBack();
+          }
         }}
         query={{
           // available options: https://developers.google.com/places/web-service/autocomplete
@@ -62,12 +72,13 @@ class GoogleAutocomplete extends React.Component {
 }
 
 function mapStateToProps(state) {
-  return { destination: state.destination };
+  return { destination: state.destination, origine: state.origine };
 }
 
 
 const mapDispatchToProps = dispatch => ({
-  updateDestination: (lat, lng, commune, route) => dispatch(updateDestination(lat, lng, commune, route))
+  updateDestination: (lat, lng, commune, route, formatedAdress) => dispatch(updateDestination(lat, lng, commune, route, formatedAdress)),
+  updateOrigine: (lat, lng, commune, route, formatedAdress) => dispatch(updateOrigine(lat, lng, commune, route, formatedAdress))
 });
 
 export default connect(

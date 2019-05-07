@@ -1,5 +1,4 @@
 import { StyleSheet } from 'react-native';
-import BoutonLetsGo from '../../components/BoutonLetsGo/BoutonLetsGo';
 
 export default StyleSheet.create({
   container: {
