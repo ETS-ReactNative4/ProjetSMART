@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Button, Alert } from 'react-native';
 import styles from './stylesBoutonSignalement';
 import { Icon } from 'react-native-elements';
+import MarkersTypes from '../MarkerTypes/MarkerTypes';
 
 export default class BoutonSignalement extends React.Component {
 
@@ -16,6 +17,7 @@ export default class BoutonSignalement extends React.Component {
       longitude: longitude,
       error: error
     }
+
     Alert.alert( "" , JSON.stringify(message) );
   }
 
