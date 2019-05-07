@@ -13,6 +13,7 @@ export default StyleSheet.create({
     textAlign: 'center'
   },
   resume: {
+    backgroundColor: '#D5D5D5',
     flex: 6
   },
   note: {
