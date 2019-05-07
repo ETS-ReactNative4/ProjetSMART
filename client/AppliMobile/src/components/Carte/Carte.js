@@ -1,13 +1,14 @@
 /* eslint-disable linebreak-style */
 import React, { Component } from 'react';
-import { View, Button } from 'react-native';
 import { connect } from 'react-redux';
+import { StyleSheet, View, Dimensions, Button,Marker,Animated} from 'react-native';
 import { Location, Permissions } from 'expo';
 import MapView from 'react-native-maps';
 import Polyline from '@mapbox/polyline';
 import styles from './styleCarte';
 import googleService from '../../services/googleService';
-
+import flagBlueImg from '../../../assets/car.png';
+import flagPinkImg from '../../../assets/flag-blue.png';
 
 class Carte extends Component {
   constructor(props) {
@@ -80,6 +81,17 @@ class Carte extends Component {
             strokeWidth={2}
             strokeColor="red"
           />
+
+          <MapView.Marker
+          onPress={() => this.setState({ marker1: !this.state.marker1 })}
+          //attention geolocalisation nécessite d'etre initialiser avec des valeurs par défauts
+          coordinate={this.state.geolocalisation}
+         
+          ref={marker => { this.marker = marker }}
+          // transforme le flagblue en flag pink
+          image={this.state.marker1 ? flagBlueImg : flagPinkImg}
+        />
+       
         </MapView>
         <Button title="Test Connection" onPress={() => this._getDirections()} />
       </View>

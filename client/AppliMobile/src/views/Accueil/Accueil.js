@@ -11,9 +11,9 @@ export default class Accueil extends React.Component {
       <View style={styles.container}>
         <View style={styles.hautAccueil}>
           <HautAccueil />
-        </View>
 
-        <View style={styles.carte}>
+        </View>
+<View style={styles.carte}>
           <Carte />
         </View>
 

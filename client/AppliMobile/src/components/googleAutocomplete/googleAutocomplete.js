@@ -5,6 +5,13 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 import { updateDestination } from '../../actions/index';
 import { API_KEY_GOOGLE_DIRECTIONS } from '../../../secret/api_key';
 
+
+const windowSize = require('Dimensions').get('window');
+
+const deviceWidth = windowSize.width;
+const deviceHeight = windowSize.height;
+
+
 const LYON = { lat: 45.7725141, lng: 4.884116 };
 
 class GoogleAutocomplete extends React.Component {
