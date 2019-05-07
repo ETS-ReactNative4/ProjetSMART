@@ -20,12 +20,12 @@ async function mainDirections(req, res) {
   const itineraireEnd = closestEnd.latitude + ", " + closestEnd.longitude;
   const polylineStart = await googleRequest.getDirectionsByCommuneRue(latitudeOrigine + "," + longitudeOrigine, itineraireStart);
   const polylineEnd = await googleRequest.getDirectionsByCommuneRue(itineraireEnd, latitudeDestination + "," + longitudeDestination);
-  const pointsTrajet = await getAllRoutesWithPenalties();
-  const polylineFinal = await buildPolyline(polylineStart, polylineEnd, JSON.parse(pointsTrajet));
+  const pointsTrajet = await getAllRoutesWithPenalties(closestStart.name, closestEnd.name);
+  const polylineFinal = await buildPolyline(polylineStart, polylineEnd, JSON.parse(pointsTrajet), closestStart);
   res.json(polylineFinal);
 }
 
-async function getAllRoutesWithPenalties() {
+async function getAllRoutesWithPenalties(noeudDepart, noeudArrivee) {
   // const routes = await tronconService.getAllTroncons();
   // console.log(routes);
   // let penalite;
@@ -68,7 +68,7 @@ async function getAllRoutesWithPenalties() {
   //   }
   //   console.log("The file was saved!");
   // });
-  const trajet = await pythonController.fillDataBase("server/pythonCode/db.txt");
+  const trajet = await pythonController.fillDataBase("server/pythonCode/db.txt", noeudDepart, noeudArrivee);
   return trajet;
 }
 
@@ -106,18 +106,25 @@ function calculateDistance(lat1,long1,lat2,long2) {
   return distance;
 }
 
-async function buildPolyline (polylineStart, polylineEnd, listeIdTroncon) {
-  const listeTroncons = await tronconService.getTronconsbyId(listeIdTroncon);
+async function buildPolyline (polylineStart, polylineEnd, listeIdTroncon, noeudD) {
   let tabPoints = [];
-  listeTroncons.forEach(troncon => {
-      tabPoints = tabPoints.concat(troncon.coordonnees);
-  })
-  console.log(polylineStart);
+  let res;
+  let lastnoeud = [noeudD.latitude, noeudD.longitude];
+  for (let i = 0; i < listeIdTroncon.length; i ++) {
+    res = await tronconService.getTronconsbyId(listeIdTroncon[i]);
+    if (calculateDistance(lastnoeud[0], lastnoeud[1], res.coordonnees[0][0], res.coordonnees[0][1]) > calculateDistance(lastnoeud[0], lastnoeud[1], res.coordonnees[res.coordonnees.length - 1][0], res.coordonnees[res.coordonnees.length - 1][1])) {
+      tabPoints = tabPoints.concat(res.coordonnees.reverse());
+      lastnoeud = res.coordonnees[0];
+    } else {
+      tabPoints = tabPoints.concat(res.coordonnees);
+      lastnoeud = res.coordonnees[res.coordonnees.length - 1];
+    }
+  }
+  console.log(tabPoints);
   const tabPointsDebut  = polyline.decode(polylineStart.points);
-  console.log("rrr"+tabPointsDebut);
   const tabPointsFin = polyline.decode(polylineEnd.points);
-  tabPoints = tabPointsDebut.concat(tabPoints);
-  tabPoints = tabPoints.concat(tabPointsFin);
+  //tabPoints = tabPointsDebut.concat(tabPoints);
+  //tabPoints = tabPoints.concat(tabPointsFin);
   const polRes = polyline.encode(tabPoints);
   return polRes;
 }

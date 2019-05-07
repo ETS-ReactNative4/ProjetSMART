@@ -1,4 +1,5 @@
 const { Troncon } = require('../models/index');
+const dbMongoose = require('../utils/db');
 
 async function getAllTroncons() {
   const allTroncons = await Troncon.find();
@@ -10,14 +11,12 @@ async function getRouteByCityStreet(uneCommune,uneRue) {
   return routesCityStreet;
 }
 
-async function getTronconsbyId(tabIdTroncons) {
-  const troncons = await Troncon.find({
-    'codeTroncon': {
-      $in: tabIdTroncons
-    }
+async function getTronconsbyId(IdTroncon) {
+  const troncon = await Troncon.findOne({
+    'codeTroncon': IdTroncon
   })
-  console.log(troncons);
-  return troncons; 
+  console.log(troncon);
+  return troncon; 
 }
 
 module.exports = {
