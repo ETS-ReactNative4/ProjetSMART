@@ -9,15 +9,16 @@ export default class FinTrajet extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-          <Text style={styles.titre}>Vous êtes arrivé !</Text>
+        <Text style={styles.titre}>Vous êtes arrivé !</Text>
         <View style={styles.resume}>
           <BasItineraire data={{ temps: '15 min', distance: '2 km', calories: '53 kcal' }} />
-          <ResumeSignalement data={{  eclairage: 0,
-                                      chantier: 0,
-                                      ferme: 3,
-                                      abime: 4,
-                                      securite: 0,
-                                      interet: 4}} />
+          <ResumeSignalement data={{ eclairage: 0,
+            chantier: 0,
+            ferme: 3,
+            abime: 4,
+            securite: 0,
+            interet: 4 }}
+          />
         </View>
         <View style={styles.note}>
           <NoteTrajet />

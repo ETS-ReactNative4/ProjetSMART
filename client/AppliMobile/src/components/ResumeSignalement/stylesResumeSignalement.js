@@ -20,8 +20,7 @@ export default StyleSheet.create({
   zone: {
     flex: 1,
     flexDirection: 'column',
-    borderColor: 'black',
-    borderWidth: 3,
+    backgroundColor: '#FFFFFF',
     borderRadius: 30,
     margin: 5
   },

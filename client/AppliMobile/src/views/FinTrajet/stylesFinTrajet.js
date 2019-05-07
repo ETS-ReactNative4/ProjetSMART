@@ -13,11 +13,11 @@ export default StyleSheet.create({
     textAlign: 'center'
   },
   resume: {
-    backgroundColor: '#D5D5D5',
+    backgroundColor: '#2A2E43',
     flex: 6
   },
   note: {
-    backgroundColor: '#D5D5D5',
+    backgroundColor: '#2A2E43',
     flex: 3
   }
 });

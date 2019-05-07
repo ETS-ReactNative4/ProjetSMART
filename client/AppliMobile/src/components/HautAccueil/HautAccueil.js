@@ -8,9 +8,6 @@ export default class HautAccueil extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.rechercheLieu}>
-          <RechercheLieu />
-        </View>
         <View style={styles.boutonProfil}>
           <BoutonProfil />
         </View>
