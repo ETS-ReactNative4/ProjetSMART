@@ -1,17 +1,19 @@
-export const updateDestination = (lat, lng, commune, route) => ({
+export const updateDestination = (lat, lng, commune, route, formatedAdress) => ({
   type: 'UPDATE_DESTINATION',
   lat,
   lng,
   commune,
-  route
+  route,
+  formatedAdress
 });
 
-export const updateOrigine = (lat, lng, commune, route) => ({
+export const updateOrigine = (lat, lng, commune, route, formatedAdress) => ({
   type: 'UPDATE_ORIGINE',
   lat,
   lng,
   commune,
-  route
+  route,
+  formatedAdress
 });
 
 export const updateLocalisation = (lat, lng) => ({

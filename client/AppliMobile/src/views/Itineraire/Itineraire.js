@@ -22,22 +22,6 @@ class Itineraire extends React.Component {
       <View style={styles.container}>
         <View style={styles.carte}>
           <Carte />
-          <Button
-            title="depart"
-            onPress={() => {
-              this.props.navigation.navigate('Recherche', {
-                type: 'depart'
-              });
-            }}
-          />
-          <Button
-            title="arrivee"
-            onPress={() => {
-              this.props.navigation.navigate('Recherche', {
-                type: 'arrivee'
-              });
-            }}
-          />
           {/* <BoutonRecherche /> */}
         </View>
         <BoutonSignalement />

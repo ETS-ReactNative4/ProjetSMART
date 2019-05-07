@@ -19,14 +19,20 @@ class GoogleAutocomplete extends React.Component {
         onPress={(data, details = null) => {
           const { lat } = details.geometry.location;
           const { lng } = details.geometry.location;
+          const formatedAdress = details.formatted_address;
+          console.log(formatedAdress);
           const commune = data.terms[2].value;
           const route = data.terms[1].value;
           if (this.props.type === 'depart') {
-            this.props.updateOrigine(lat, lng, commune, route);
+            this.props.updateOrigine(lat, lng, commune, route, formatedAdress);
           } else {
-            this.props.updateDestination(lat, lng, commune, route);
+            this.props.updateDestination(lat, lng, commune, route, formatedAdress);
           }
-          this.props.navigation.goBack();
+          if (this.props.origine.lat !== 0 && this.props.destination.lat !== 0) {
+            this.props.navigation.navigate('Itineraire');
+          } else {
+            this.props.navigation.goBack();
+          }
         }}
         query={{
           // available options: https://developers.google.com/places/web-service/autocomplete
@@ -71,8 +77,8 @@ function mapStateToProps(state) {
 
 
 const mapDispatchToProps = dispatch => ({
-  updateDestination: (lat, lng, commune, route) => dispatch(updateDestination(lat, lng, commune, route)),
-  updateOrigine: (lat, lng, commune, route) => dispatch(updateOrigine(lat, lng, commune, route))
+  updateDestination: (lat, lng, commune, route, formatedAdress) => dispatch(updateDestination(lat, lng, commune, route, formatedAdress)),
+  updateOrigine: (lat, lng, commune, route, formatedAdress) => dispatch(updateOrigine(lat, lng, commune, route, formatedAdress))
 });
 
 export default connect(

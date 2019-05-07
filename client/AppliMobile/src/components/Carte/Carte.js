@@ -1,7 +1,7 @@
 /* eslint-disable linebreak-style */
 import React, { Component } from 'react';
-import { View, Button } from 'react-native';
 import { connect } from 'react-redux';
+import { View, Button } from 'react-native';
 import { Location, Permissions } from 'expo';
 import MapView from 'react-native-maps';
 import Polyline from '@mapbox/polyline';
@@ -9,7 +9,6 @@ import { updateLocalisation } from '../../actions/index';
 import styles from './styleCarte';
 import googleService from '../../services/googleService';
 import MarkerPerso from '../MarkerPerso/MarkerPerso';
-
 
 class Carte extends Component {
   constructor(props) {
@@ -42,7 +41,9 @@ class Carte extends Component {
   async _getDirections() {
     try {
       const destinationLoc = this.props.destination;
-      const coordinates = this.props.geolocalisation;
+      const coordinates = this.props.origine;
+      console.log(coordinates);
+      console.log(destinationLoc);
       const respJson = await googleService.getDirections(coordinates, destinationLoc);
       const points = Polyline.decode(respJson.points);
       const coords = points.map(point => ({
@@ -91,7 +92,8 @@ function mapStateToProps(state) {
   return {
     destination: state.destination,
     localisation: state.localisation,
-    markerList: state.markerList
+    markerList: state.markerList,
+    origine: state.origine
   };
 }
 

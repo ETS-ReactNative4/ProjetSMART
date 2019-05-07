@@ -8,8 +8,8 @@ import GoogleAutocomplete from '../components/googleAutocomplete/googleAutocompl
 
 
 const RootStack = createStackNavigator({
+  Accueil: { screen: Accueil, navigationOptions: { title: 'Accueil' } },
   Itineraire: { screen: Itineraire, navigationOptions: { title: 'Itinéraire' } },
-  Accueil: { screen: Accueil },
   FinTrajet: { screen: FinTrajet },
   Recherche: { screen: Recherche, navigationOptions: { title: 'Recherche' } },
   Trajet: { screen: Trajet },
