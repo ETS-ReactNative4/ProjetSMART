@@ -15,7 +15,7 @@ async function getTronconsbyId(IdTroncon) {
   const troncon = await Troncon.findOne({
     'codeTroncon': IdTroncon
   })
-  return troncons;
+  return troncon;
 }
 
 async function updateTronconsProblems(query, modif, res){

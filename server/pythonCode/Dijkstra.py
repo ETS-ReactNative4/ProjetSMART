@@ -2,6 +2,7 @@ import json as js
 import math as Math
 import sys
 import json
+import io
 from heapq import heappop, heappush
 
 class Noeud:
@@ -162,13 +163,13 @@ if __name__ == "__main__":
     #mapDijkstra : Map<CodeNoeud, Map<CodeNoeud, CodeTroncon>>
 
     mapDijkstra =  {}
-    with open("server/pythonCode/donnees_map_Dijkstra.json", "r", encoding='UTF-8') as openMap:
+    with io.open("server/pythonCode/donnees_map_Dijkstra.json", "r", encoding='UTF-8') as openMap:
       mapDijkstra = json.load(openMap)
 
     fichierObjectif = sys.argv[1]
-    with open(fichierObjectif, "r", encoding = 'UTF-8') as openTroncons:
+    with io.open(fichierObjectif, "r", encoding = 'UTF-8') as openTroncons:
         troncons = json.load(openTroncons)
-    
+
     longueurTroncons = {}
     for code, longueur in troncons:
         longueurTroncons[code] = float(longueur)

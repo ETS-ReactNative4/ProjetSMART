@@ -45,7 +45,7 @@ async function getClosestNoeud(commune, rue, lat, long) {
 }
 
 function findClosestNode(noeuds, latStart, longStart) {
-  let distance = 1000000;
+  let distance = Infinity;
   let node = noeuds[0];
   let distTempo = 0;
   for (let i in noeuds) {
@@ -62,7 +62,7 @@ function calculateDistance(lat1,long1,lat2,long2) {
   const point1 = new GeoPoint(lat1, long1);
   const point2 = new GeoPoint(lat2, long2);
   const distance = point1.distanceTo(point2, true);//output in kilometers
-  return distance;
+  return distance * 1000;
 }
 
 async function buildPolyline (polylineStart, polylineEnd, listeIdTroncon, noeudD) {
@@ -90,8 +90,8 @@ async function buildPolyline (polylineStart, polylineEnd, listeIdTroncon, noeudD
 async function updateDatabase (req, res){
   //TODO TRANSFORMER COMMUNE ET RUE PAR LAT LONG
   const routes = await tronconService.getRouteByCityStreet(req.query.commune, req.query.rue);
-  const lat = 45.76144417091839;
-  const long = 4.835691535864809;
+  const lat = 45.762931;
+  const long = 4.835809;
   let retour;
   let noeuds = [];
   for (let i in routes) {
@@ -103,18 +103,24 @@ async function updateDatabase (req, res){
   const node = findClosestNode(noeuds, lat, long);
   let tronconsDepart = await tronconService.getTronconsByNoeudDepartCityStreet(node.name, req.query.commune, req.query.rue);
   let tronconsArrive = await tronconService.getTronconsByNoeudArriveeCityStreet(node.name, req.query.commune, req.query.rue);
-  const noeud1 = await noeudService.getNoeudByCode(tronconsDepart[0].NoeudDepart);
-  const noeud2 = await noeudService.getNoeudByCode(tronconsDepart[0].NoeudArrivee);
-  const noeud3 = await noeudService.getNoeudByCode(tronconsArrive[0].NoeudDepart);
-  const noeud4 = await noeudService.getNoeudByCode(tronconsArrive[0].NoeudArrivee);
-  let distance1 = await projection(noeud1[0].latitude, noeud1[0].longitude, noeud2[0].latitude, noeud2[0].longitude, lat, long);
-  let distance2 = await projection(noeud3[0].latitude, noeud3[0].longitude, noeud4[0].latitude, noeud4[0].longitude, lat, long);
-  if (distance1 < distance2) {
-    retour = tronconsDepart[0];
+  let tronconsTotaux = [];
+  let noeud1, noeud2, noeud3, noeud4;
+  if(tronconsDepart){
+    tronconsTotaux = tronconsTotaux.concat(tronconsDepart)
+  }
+  if(tronconsArrive){
+    tronconsTotaux = tronconsTotaux.concat(tronconsArrive)
+  }
+  distanceMin = Infinity;
+  for (let i in tronconsTotaux) {
+    noeud1 = await noeudService.getNoeudByCode(tronconsTotaux[i].NoeudDepart);
+    noeud2 = await noeudService.getNoeudByCode(tronconsTotaux[i].NoeudArrivee);
+    let distance = await projection(noeud1[0].latitude, noeud1[0].longitude, noeud2[0].latitude, noeud2[0].longitude, lat, long);
+    if (distance < distanceMin) {
+      retour = tronconsTotaux[i];
+      distanceMin = distance;
 
-  } else {
-    retour = tronconsArrive[0];
-
+    }
   }
   var datetime = new Date();
   await marqueurService.addMarqueurTroncon(retour.codeTroncon, req.query.probleme, lat, long, datetime, res);
@@ -145,7 +151,6 @@ async function updateDatabase (req, res){
      penalite = 0;
    }
    penalite = penalite * retour.Longueur;
-   console.log(penalite);
    fs.readFile('server/pythonCode/db.txt', 'utf8', (err, jsonString) => {
      if (err) {
        return console.log(err);
