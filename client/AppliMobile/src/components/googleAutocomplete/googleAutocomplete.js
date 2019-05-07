@@ -16,8 +16,7 @@ class GoogleAutocomplete extends React.Component {
         autoFocus={false}
         returnKeyType="default"
         fetchDetails
-        onPress={(data, details = null) => { 
-          // 'details' is provided when fetchDetails = true
+        onPress={(data, details = null) => {
           this.props.updateDestination(details.geometry.location.lat, details.geometry.location.lng);
         }}
         query={{

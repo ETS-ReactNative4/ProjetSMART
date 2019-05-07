@@ -56,8 +56,14 @@ async function buildPolyline (req, res) {
     res.json(listeTroncons);
 }
 
+async function addSignalement(req, res){
+    await routeService.addSignalement(req.body.signalement);
+    res.json();
+}
+
 module.exports = {
     getAllRoutes,
     getRouteByCityStreet,
     buildPolyline,
+    addSignalement
 }

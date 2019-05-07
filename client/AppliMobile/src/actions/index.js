@@ -4,6 +4,8 @@ export const updateDestination = (lat, lng) => ({
   lng
 });
 
-export const ilcasselescouilles = () => ({
-
+export const updateLocalisation = (lat, lng) => ({
+  type: 'UPDATE_LOCALISATION',
+  lat,
+  lng
 });

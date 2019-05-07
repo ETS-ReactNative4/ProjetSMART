@@ -24,9 +24,14 @@ async function getTronconsbyId(tabIdTroncons) {
   return troncons; 
 }
 
+async function addSignalement(signalement) {
+  console.log(signalement);
+}
+
 module.exports = {
   getAllRoutes,
   getRouteByCityStreet,
   getNoeudByCode,
-  getTronconsbyId
+  getTronconsbyId,
+  addSignalement
 };

@@ -2,33 +2,28 @@ import React from 'react';
 import { View, Button, Alert } from 'react-native';
 import styles from './stylesBoutonSignalement';
 import { Icon } from 'react-native-elements';
+import { connect } from 'react-redux';
+import signalementService from '../../services/signalementServices';
 
-export default class BoutonSignalement extends React.Component {
+class BoutonSignalement extends React.Component {
 
   state = {
     start: true
   }
 
-  _envoyerSignalement = (signalement, latitude, longitude, error) => {
-    const message = {
-      signalement: signalement,
+  _envoyerSignalement = (problem, latitude, longitude) => {
+    const signalement = {
+      problem: problem,
       latitude: latitude,
-      longitude: longitude,
-      error: error
+      longitude: longitude
     }
-    Alert.alert( "" , JSON.stringify(message) );
+    signalementService.postSignalement(signalement);
   }
 
-  _signaler = (signalement) => {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        this._envoyerSignalement(signalement, position.coords.latitude, position.coords.longitude, null);
-      },
-      (error) => {
-        this._envoyerSignalement(signalement, null, null, error.message);
-      },
-      { enableHighAccuracy: true, timeout: 1000, maximumAge: 1000 },
-    );
+  _signaler = (problem) => {
+    const lat = this.props.localisation.lat
+    const lng = this.props.localisation.lng
+    this._envoyerSignalement(problem, lat, lng);
     this._onPressRetour();
   }
 
@@ -121,3 +116,13 @@ export default class BoutonSignalement extends React.Component {
     }
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    localisation: state.localisation
+  };
+}
+
+export default connect(
+  mapStateToProps
+)(BoutonSignalement);

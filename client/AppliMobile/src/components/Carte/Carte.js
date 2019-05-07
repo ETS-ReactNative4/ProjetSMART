@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Location, Permissions } from 'expo';
 import MapView from 'react-native-maps';
 import Polyline from '@mapbox/polyline';
+import { updateLocalisation } from '../../actions/index';
 import styles from './styleCarte';
 import googleService from '../../services/googleService';
 
@@ -14,7 +15,6 @@ class Carte extends Component {
     super(props);
     this.state = {
       mapRegion: { latitude: -33.872659, longitude: 151.206116, latitudeDelta: 0.0922, longitudeDelta: 0.0421 },
-      geolocalisation: null,
       tabPoints: []
     };
   }
@@ -31,33 +31,26 @@ class Carte extends Component {
   _getLocationAsync = async () => {
     const { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== 'granted') {
-      this.setState({
-        geolocalisation: 'Permission to access location was denied',
-      });
+      alert('acces denied for geolocalisation');
     }
     const locationActuel = await Location.getCurrentPositionAsync({});
-    this.setState({ geolocalisation: JSON.stringify(locationActuel) });
+    // this.setState({ geolocalisation: JSON.stringify(locationActuel) });
+    this.props.updateLocalisation(locationActuel.coords.latitude, locationActuel.coords.longitude);
   };
 
   async _getDirections() {
     try {
-      console.log(this.props);
       const destinationLoc = this.props.destination;
-      const coordinates = this.state.geolocalisation;
-      console.log(coordinates);
+      const coordinates = this.props.geolocalisation;
       const respJson = await googleService.getDirections(coordinates, destinationLoc);
-      console.log(respJson);
       const points = Polyline.decode(respJson.points);
-      console.log("après points");
       const coords = points.map(point => ({
         latitude: point[0],
         longitude: point[1]
       }));
-      console.log("après coords");
       this.setState({ tabPoints: coords });
       return this.state.tabPoints;
     } catch (error) {
-      console.log("l'eerreur du cul");
       alert(error);
       return error;
     }
@@ -88,11 +81,19 @@ class Carte extends Component {
 }
 
 function mapStateToProps(state) {
-  return { destination: state.destination };
+  return { 
+    destination: state.destination,
+    localisation: state.localisation
+  };
 }
 
+const mapDispatchToProps = dispatch => ({
+  updateLocalisation: (lat, lng) => dispatch(updateLocalisation(lat, lng))
+});
+
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(Carte);
 
 /*
