@@ -1,11 +1,10 @@
 const router = require('express').Router();
 const am = require('../utils/async-middleware');
 
-const routeController = require('../controllers/routeController');
+const tronconController = require('../controllers/tronconController');
+const signalementController = require('../controllers/signalementController');
 
-router.get('/', am(routeController.getAllRoutes));
-router.get('/findTroncon/', am(routeController.getRouteByCityStreet));
-router.get('/test', am(routeController.buildPolyline));
-router.post('/signalement', am(routeController.addSignalement));
+router.post('/signalement', am(signalementController.addSignalement));
+router.get('/directions', am(tronconController.mainDirections))
 
 module.exports = router;

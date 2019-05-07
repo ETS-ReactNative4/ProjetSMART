@@ -11,3 +11,10 @@ export const updateLocalisation = (lat, lng) => ({
   lat,
   lng
 });
+
+export const addMarker = (lat, lng, markerType) => ({
+  type: 'ADD_MARKER',
+  lat,
+  lng,
+  markerType
+});

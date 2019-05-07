@@ -1,28 +1,30 @@
 import React from 'react';
-import { View, Button, Alert } from 'react-native';
+import { View } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
+import { addMarker } from '../../actions/index';
 import signalementService from '../../services/signalementServices';
 import styles from './stylesBoutonSignalement';
 
 class BoutonSignalement extends React.Component {
-
   state = {
     start: true
   }
 
   _envoyerSignalement = (problem, latitude, longitude) => {
     const signalement = {
-      problem: problem,
-      latitude: latitude,
-      longitude: longitude
-    }
+      problem,
+      latitude,
+      longitude
+    };
+    this.props.addMarker(signalement.latitude, signalement.longitude, signalement.problem);
+    console.log(this.props);
     signalementService.postSignalement(signalement);
   }
 
   _signaler = (problem) => {
-    const lat = this.props.localisation.lat
-    const lng = this.props.localisation.lng
+    const { lat } = this.props.localisation;
+    const { lng } = this.props.localisation;
     this._envoyerSignalement(problem, lat, lng);
     this._onPressRetour();
   }
@@ -129,10 +131,16 @@ class BoutonSignalement extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    localisation: state.localisation
+    localisation: state.localisation,
+    markerList: state.markerList
   };
 }
 
+const mapDispatchToProps = dispatch => ({
+  addMarker: (lat, lng, markerType) => dispatch(addMarker(lat, lng, markerType))
+});
+
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(BoutonSignalement);

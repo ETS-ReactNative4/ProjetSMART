@@ -8,6 +8,7 @@ import Polyline from '@mapbox/polyline';
 import { updateLocalisation } from '../../actions/index';
 import styles from './styleCarte';
 import googleService from '../../services/googleService';
+import MarkerPerso from '../MarkerPerso/MarkerPerso';
 
 
 class Carte extends Component {
@@ -34,8 +35,8 @@ class Carte extends Component {
       alert('acces denied for geolocalisation');
     }
     const locationActuel = await Location.getCurrentPositionAsync({});
-    // this.setState({ geolocalisation: JSON.stringify(locationActuel) });
     this.props.updateLocalisation(locationActuel.coords.latitude, locationActuel.coords.longitude);
+    console.log(this.props);
   };
 
   async _getDirections() {
@@ -73,17 +74,24 @@ class Carte extends Component {
             strokeWidth={2}
             strokeColor="red"
           />
+          {this.props.markerList.map(marker => (
+            <MarkerPerso
+              localisation={marker.localisation}
+            />
+          ))}
         </MapView>
         <Button title="Test Connection" onPress={() => this._getDirections()} />
+
       </View>
     );
   }
 }
 
 function mapStateToProps(state) {
-  return { 
+  return {
     destination: state.destination,
-    localisation: state.localisation
+    localisation: state.localisation,
+    markerList: state.markerList
   };
 }
 
