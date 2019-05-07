@@ -120,11 +120,10 @@ async function buildPolyline (polylineStart, polylineEnd, listeIdTroncon, noeudD
       lastnoeud = res.coordonnees[res.coordonnees.length - 1];
     }
   }
-  console.log(tabPoints);
   const tabPointsDebut  = polyline.decode(polylineStart.points);
   const tabPointsFin = polyline.decode(polylineEnd.points);
-  //tabPoints = tabPointsDebut.concat(tabPoints);
-  //tabPoints = tabPoints.concat(tabPointsFin);
+  tabPoints = tabPointsDebut.concat(tabPoints);
+  tabPoints = tabPoints.concat(tabPointsFin);
   const polRes = polyline.encode(tabPoints);
   return polRes;
 }

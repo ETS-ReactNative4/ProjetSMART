@@ -25,6 +25,7 @@ function getDirectionsByCommuneRue(depart, destination) {
     googleMapsClient.directions({
       origin: depart,
       destination: destination,
+      mode: 'walking'
     })
       .asPromise()
       .then((response) => {
