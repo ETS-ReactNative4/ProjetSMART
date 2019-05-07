@@ -18,7 +18,6 @@ class BoutonSignalement extends React.Component {
       longitude
     };
     this.props.addMarker(signalement.latitude, signalement.longitude, signalement.problem);
-    console.log(this.props);
     signalementService.postSignalement(signalement);
   }
 
