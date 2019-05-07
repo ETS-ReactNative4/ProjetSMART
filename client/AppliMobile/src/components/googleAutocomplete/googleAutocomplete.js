@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { updateDestination } from '../../actions/index';
-import { API_KEY_GOOGLE_DIRECTIONS } from '../../../secret/api_key';
+import { API_KEY_GOOGLE_DIRECTIONS } from '../../../secret/api_keys';
 
 const LYON = { lat: 45.7725141, lng: 4.884116 };
 
