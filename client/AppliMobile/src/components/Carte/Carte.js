@@ -1,13 +1,15 @@
 /* eslint-disable linebreak-style */
 import React, { Component } from 'react';
-import { StyleSheet, View, Dimensions, Button } from 'react-native';
+import { View, Button } from 'react-native';
+import { connect } from 'react-redux';
 import { Location, Permissions } from 'expo';
 import MapView from 'react-native-maps';
 import Polyline from '@mapbox/polyline';
+import styles from './styleCarte';
 import googleService from '../../services/googleService';
 
 
-export default class Map extends Component {
+class Carte extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -35,21 +37,23 @@ export default class Map extends Component {
     }
     const locationActuel = await Location.getCurrentPositionAsync({});
     this.setState({ geolocalisation: JSON.stringify(locationActuel) });
-    console.log(`la géoloc ${this.state.geolocalisation}`);
   };
 
-  async _getDirections(coordinates, destinationLoc) {
+  async _getDirections() {
     try {
       // const respJson = await googleService.getDirections(coordinates, destinationLoc);
       // console.log('respJson');
       const points = Polyline.decode('mwlvGyfx\\h@aBD?d@sA??`@nA??FCHEzAeA??VSHEBCzAgALIPK??Xr@LD??L`@v@dBLH??H`@v@jBxAfDTV??dEq@??fGgAhAQbAMTE??`Ce@??`Cc@??xB_@??xCO??tCQTAL@??EfB??lLRTJ??rCHfA???RFbCE??pCI??`BC??|AE??nAEVC??nBG??hE[??nF_@??t@Ev@E??LA`BGz@E??lCL`AD??~BL??b@@`@Bl@Bl@Bx@D???EDEBEF?B@??FH@F??D?hAD`@A??zBK??PbA??`ApF??RfAVrAH`@??R|@??h@nBLf@DP??NIHEbBk@j@IHALD??tI~@Z?x@H??XFxCx@J@??ALeAnJ??bCr@??lDzA??t@V??TBjBt@HH??DDhA^t@X??ZJ??jAl@??jCnA??`@T??|CxA??\\NbFpB??tCjA??lChAHD??pC~A??vDtB??jAz@??pBzA??`F|D??L?z@r@HZ??|CnCPN??\\AdF~CRX??tAfA??pGpECIQEg@]');
+
       const coords = points.map(point => ({
         latitude: point[0],
         longitude: point[1]
       }));
+      console.log("après coords");
       this.setState({ tabPoints: coords });
       return this.state.tabPoints;
     } catch (error) {
+      console.log("l'eerreur du cul");
       alert(error);
       return error;
     }
@@ -73,23 +77,19 @@ export default class Map extends Component {
             strokeColor="red"
           />
         </MapView>
-        <Button title="Test Connection" onPress={() => this._getDirections(this.state.geolocalisation, '41.905499, 12.456262')} />
+        <Button title="Test Connection" onPress={() => this._getDirections()} />
       </View>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  map: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height
-  },
-});
+function mapStateToProps(state) {
+  return { destination: state.destination };
+}
+
+export default connect(
+  mapStateToProps
+)(Carte);
 
 /*
 <Button title="Test Connection" onPress={() => this._getDirections(this.state.geolocalisation, '41.905499, 12.456262')} />
