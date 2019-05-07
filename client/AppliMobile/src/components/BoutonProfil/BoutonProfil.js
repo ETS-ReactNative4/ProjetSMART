@@ -13,6 +13,7 @@ export default class BoutonProfil extends React.Component {
       <Button
         onPress={this._onPress}
         title="Profil"
+        color="#C840E9"
       />
     );
   }
