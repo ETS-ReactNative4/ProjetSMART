@@ -19,14 +19,18 @@ async function getTronconsbyId(IdTroncon) {
 }
 
 async function updateTronconsProblems(query, modif, res){
-  if (!!query.modif) {
-    let nouvCompteur = query.modif + 1;
-    Troncon.findOneAndUpdate({codeTroncon : query.codeTroncon}, {modif: nouvCompteur}, {upsert:true}, function(err, doc){
+  if (!!query[modif]) {
+    let nouvCompteur = query[modif] + 1;
+    let jsonObjet = {};
+    jsonObjet[modif] = nouvCompteur;
+    Troncon.findOneAndUpdate({codeTroncon : query.codeTroncon}, {$set: jsonObjet}, {upsert:true}, function(err, doc){
     if (err) return res.status(500).send({ error: err });
       return res.status(200).send("succesfully saved");
   });
   } else {
-    Troncon.findOneAndUpdate({codeTroncon : query.codeTroncon}, {modif: 1}, {upsert:true}, function(err, doc){
+    let jsonObjet = {};
+    jsonObjet[modif] = 1;
+    Troncon.findOneAndUpdate({codeTroncon : query.codeTroncon}, {$set: jsonObjet}, {upsert:true}, function(err, doc){
       if (err) return res.status(500).send({ error: err });
       return res.status(200).send("succesfully saved");
   });

@@ -27,48 +27,6 @@ async function mainDirections(req, res) {
 }
 
 async function getAllRoutesWithPenalties(noeudDepart, noeudArrivee) {
-  // const routes = await tronconService.getAllTroncons();
-  // console.log(routes);
-  // let penalite;
-  // let ajout = [];
-  // let retour = [];
-  // for(let i = 0; i < routes.length; i++) {
-  //   penalite = 1;
-  //   ajout = [];
-  //   if (!!routes[i].eclairage) {
-  //     penalite = penalite + 2*routes[i].eclairage;
-  //   }
-  //   if (!!routes[i].travaux) {
-  //     penalite = penalite + 4*routes[i].travaux;
-  //   }
-  //   if (!!routes[i].fermee) {
-  //     if (routes[i].fermee > 5) {
-  //       penalite = penalite + 10000;
-  //     }
-  //   }
-  //   if (!!routes[i].etat) {
-  //     penalite = penalite + 4*routes[i].etat;
-  //   }
-  //   if (!!routes[i].securite) {
-  //     penalite = penalite + 2*routes[i].securite;
-  //   }
-  //   if (!!routes[i].interet) {
-  //     penalite = penalite - 2*routes[i].interet;
-  //   }
-  //   if (penalite < 0) {
-  //     penalite = 0;
-  //   }
-  //   penalite = penalite * routes[i].Longueur;
-  //   ajout.push(routes[i].codeTroncon);
-  //   ajout.push(penalite.toString());
-  //   retour.push(ajout);
-  // }
-  // fs.writeFile("server/pythonCode/db.txt",JSON.stringify(retour), function(err) {
-  //   if(err) {
-  //     return console.log(err);
-  //   }
-  //   console.log("The file was saved!");
-  // });
   const trajet = await pythonController.fillDataBase("server/pythonCode/db.txt", noeudDepart, noeudArrivee);
   return trajet;
 }
@@ -161,6 +119,54 @@ async function updateDatabase (req, res){
   var datetime = new Date();
   await marqueurService.addMarqueurTroncon(retour.codeTroncon, req.query.probleme, lat, long, datetime, res);
   await tronconService.updateTronconsProblems(retour, req.query.probleme, res);
+
+   let penalite = 1;
+   if (!!retour.eclairage) {
+   penalite = penalite + 2*retour.eclairage;
+   }
+   if (!!retour.travaux) {
+     penalite = penalite + 4*retour.travaux;
+   }
+   if (!!retour.fermee) {
+     if (retour.fermee > 5) {
+       penalite = penalite + 10000;
+     }
+   }
+   if (!!retour.etat) {
+     penalite = penalite + 4*retour.etat;
+   }
+   if (!!retour.securite) {
+     penalite = penalite + 2*retour.securite;
+   }
+   if (!!retour.interet) {
+     penalite = penalite - 2*retour.interet;
+   }
+   if (penalite < 0) {
+     penalite = 0;
+   }
+   penalite = penalite * retour.Longueur;
+   console.log(penalite);
+   fs.readFile('server/pythonCode/db.txt', 'utf8', (err, jsonString) => {
+     if (err) {
+       return console.log(err);
+     }
+     try {
+       let file = JSON.parse(jsonString)
+       for (let t in file) {
+         if (file[t][0] === retour.codeTroncon) {
+           file[t][1] = penalite.toString();
+           break;
+         }
+       }
+       fs.writeFile("server/pythonCode/db.txt",JSON.stringify(file), function(err) {
+         if(err) {
+           return console.log(err);
+         }
+       });
+     } catch(err) {
+       console.log('Error parsing JSON string:', err)
+     }
+   });
 }
 
 async function projection(lat1, lon1, lat2, lon2, lat, lon){
