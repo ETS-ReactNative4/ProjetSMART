@@ -41,23 +41,18 @@ class Carte extends Component {
 
   async _getDirections() {
     try {
-      console.log(this.props);
       const destinationLoc = this.props.destination;
+      console.log(destinationLoc);
       const coordinates = this.state.geolocalisation;
-      console.log(coordinates);
       const respJson = await googleService.getDirections(coordinates, destinationLoc);
-      console.log(respJson);
       const points = Polyline.decode(respJson.points);
-      console.log("après points");
       const coords = points.map(point => ({
         latitude: point[0],
         longitude: point[1]
       }));
-      console.log("après coords");
       this.setState({ tabPoints: coords });
       return this.state.tabPoints;
     } catch (error) {
-      console.log("l'eerreur du cul");
       alert(error);
       return error;
     }
