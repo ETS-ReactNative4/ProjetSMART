@@ -1,5 +1,6 @@
 const tronconService = require('../services/tronconService');
 const noeudService = require('../services/noeudService');
+const marqueurService = require('../services/marqueurService');
 const pythonController = require('../helpers/pythonController');
 const googleRequest = require('./googleRequest');
 const GeoPoint = require('geopoint');
@@ -157,7 +158,8 @@ async function updateDatabase (req, res){
     retour = tronconsArrive[0];
 
   }
-
+  var datetime = new Date();
+  await marqueurService.addMarqueurTroncon(retour.codeTroncon, req.query.probleme, lat, long, datetime, res);
   await tronconService.updateTronconsProblems(retour, req.query.probleme, res);
 }
 
@@ -183,7 +185,12 @@ async function projection(lat1, lon1, lat2, lon2, lat, lon){
 
 }
 
+  async function getMarqueurByIdTroncon(req, res){
+    return await marqueurService.getMarqueurById(req.query.codeTroncon);
+  }
+
 module.exports = {
   mainDirections,
-  updateDatabase
+  updateDatabase,
+  getMarqueurByIdTroncon
 }
