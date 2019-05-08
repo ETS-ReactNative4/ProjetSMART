@@ -11,6 +11,8 @@ import styles from './stylesAccueil';
 // eslint-disable-next-line react/prefer-stateless-function
 class Accueil extends React.Component {
   _displayBoutonGo = () => {
+    console.log("à vérifier");
+    console.log(this.props.origine);
     if (!!this.props.origine.lat && !!this.props.destination.lat) {
       return (<BoutonGo />);
     }
@@ -20,7 +22,7 @@ class Accueil extends React.Component {
     return (
       <View style={styles.container}>
         <Header
-          centerComponent={ <Image style={{ flex: 1, resizeMode: 'contain', marginBottom: 5 }} source={require('../../images/logo.png')} /> }
+          centerComponent={ <Image style={{ flex: 1, resizeMode: 'contain', marginBottom: 5 }} source={require('../../../assets/logo.png')} /> }
           containerStyle={{ backgroundColor: '#000000' }}
         />
         <View style={styles.carte}>

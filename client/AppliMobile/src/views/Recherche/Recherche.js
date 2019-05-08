@@ -10,7 +10,7 @@ export default class Trajet extends React.Component {
     return (
       <View flex={12}>
         <Header
-          centerComponent={ <Image style={{ flex: 1, resizeMode: 'contain', marginBottom: 5 }} source={require('../../images/logo.png')} /> }
+          centerComponent={ <Image style={{ flex: 1, resizeMode: 'contain', marginBottom: 5 }} source={require('../../../assets/logo.png')} /> }
           containerStyle={{ backgroundColor: '#000000' }}
         />
         <View flex={11}>

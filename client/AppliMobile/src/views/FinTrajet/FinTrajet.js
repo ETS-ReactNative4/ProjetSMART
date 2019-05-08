@@ -6,12 +6,13 @@ import BasItineraire from '../../components/BasItineraire/BasItineraire';
 import ResumeSignalement from '../../components/ResumeSignalement/ResumeSignalement';
 import styles from './stylesFinTrajet';
 
+// eslint-disable-next-line react/prefer-stateless-function
 export default class FinTrajet extends React.Component {
   render() {
     return (
       <View style={styles.container}>
         <Header
-          centerComponent={ <Image style={{ flex: 1, resizeMode: 'contain', marginBottom: 5 }} source={require('../../images/logo.png')} /> }
+          centerComponent={ <Image style={{ flex: 1, resizeMode: 'contain', marginBottom: 5 }} source={require('../../../assets/logo.png')} /> }
           containerStyle={{ backgroundColor: '#000000' }}
         />
         <Text style={styles.titre}>Vous êtes arrivé !</Text>

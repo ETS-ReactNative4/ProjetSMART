@@ -1,32 +1,31 @@
-import React, { Component } from 'react';
-import { View, StyleSheet, Image } from 'react-native';
+import React from 'react';
+import { View, Image } from 'react-native';
 import { Header } from 'react-native-elements';
 import Carte from '../../components/Carte/Carte';
-import HautAccueil from '../../components/HautAccueil/HautAccueil';
 import BoutonSignalement from '../../components/BoutonSignalement/BoutonSignalement';
-import styles from './stylesTrajet.js';
+import BoutonEnd from '../../components/BoutonEnd/BoutonEnd';
+import styles from './stylesTrajet';
 
+// eslint-disable-next-line react/prefer-stateless-function
 export default class Trajet extends React.Component {
   render() {
     return (
-      <View style={ styles.container}>
+      <View style={styles.container}>
         <Header
-          centerComponent={ <Image style={{ flex: 1, resizeMode: 'contain', marginBottom: 5 }} source={require('../../images/logo.png')} /> }
+          centerComponent={<Image style={{ flex: 1, resizeMode: 'contain', marginBottom: 5 }} source={require('../../../assets/logo.png')} />}
           containerStyle={{ backgroundColor: '#000000' }}
         />
-
-        <View style={ styles.hautAccueil}>
-          <HautAccueil/>
+        <View style={styles.carte}>
+          <Carte />
         </View>
-
-        <View style={ styles.carte}>
-          <Carte/>
+        <View style={styles.boutonSignalement}>
+          <BoutonSignalement />
         </View>
-
-        <View style={ styles.boutonSignalement}>
-          <BoutonSignalement/>
+        <View style={styles.basItineraire}>
+          <View style={styles.boutonLetsGo}>
+            <BoutonEnd />
+          </View>
         </View>
-
       </View>
     );
   }
