@@ -1,5 +1,6 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Image } from 'react-native';
+import { Header } from 'react-native-elements';
 import { connect } from 'react-redux';
 import Carte from '../../components/Carte/Carte';
 import BoutonSignalement from '../../components/BoutonSignalement/BoutonSignalement';
@@ -16,6 +17,10 @@ class Itineraire extends React.Component {
     console.log(this.props.destination);
     return (
       <View style={styles.container}>
+        <Header
+          centerComponent={ <Image style={{ flex: 1, resizeMode: 'contain', marginBottom: 5 }} source={require('../../images/logo.png')} /> }
+          containerStyle={{ backgroundColor: '#000000' }}
+        />
         <View style={styles.carte}>
           <Carte />
           {/* <BoutonRecherche /> */}

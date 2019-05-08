@@ -83,7 +83,7 @@ class Carte extends Component {
             />
           ))}
         </MapView>
-        <Button title="Test Connection" onPress={() => this._getDirections()} />
+        {/* <Button title="Test Connection" onPress={() => this._getDirections()} /> */}
 
       </View>
     );

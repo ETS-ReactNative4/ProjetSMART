@@ -1,13 +1,25 @@
-import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import React from 'react';
+import { View, Image } from 'react-native';
+import { Header } from 'react-native-elements';
 import RechercheLieu from '../../components/RechercheLieu/RechercheLieu';
-import styles from './stylesRecherche.js';
+import BoutonRetour from '../../components/BoutonRetour/BoutonRetour';
 
 // eslint-disable-next-line react/prefer-stateless-function
 export default class Trajet extends React.Component {
   render() {
     return (
-      <RechercheLieu type={this.props.navigation.getParam('type')} navigation={this.props.navigation} />
+      <View flex={12}>
+        <Header
+          centerComponent={ <Image style={{ flex: 1, resizeMode: 'contain', marginBottom: 5 }} source={require('../../images/logo.png')} /> }
+          containerStyle={{ backgroundColor: '#000000' }}
+        />
+        <View flex={11}>
+          <RechercheLieu type={this.props.navigation.getParam('type')} />
+        </View>
+        <View flex={1}>
+          <BoutonRetour />
+        </View>
+      </View>
     );
   }
 }

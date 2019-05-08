@@ -6,7 +6,7 @@ import styles from './stylesRechercheLieu';
 export default class RechercheLieu extends React.Component {
   render() {
     return (
-      <GoogleAutocomplete style={styles.googleAutocomplete} navigation={this.props.navigation} type={this.props.type} />
+      <GoogleAutocomplete style={styles.googleAutocomplete} type={this.props.type} />
     );
   }
 }
