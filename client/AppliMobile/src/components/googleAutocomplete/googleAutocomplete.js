@@ -1,6 +1,7 @@
 /* eslint-disable react/prefer-stateless-function */
 import React from 'react';
 import { connect } from 'react-redux';
+import { withNavigation } from 'react-navigation';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { updateDestination, updateOrigine } from '../../actions/index';
 import { API_KEY_GOOGLE_DIRECTIONS } from '../../../secret/api_keys';
@@ -20,7 +21,6 @@ class GoogleAutocomplete extends React.Component {
           const { lat } = details.geometry.location;
           const { lng } = details.geometry.location;
           const formatedAdress = details.formatted_address;
-          console.log(formatedAdress);
           const commune = data.terms[2].value;
           const route = data.terms[1].value;
           if (this.props.type === 'depart') {
@@ -30,7 +30,6 @@ class GoogleAutocomplete extends React.Component {
           }
           if (this.props.origine.lat !== 0 && this.props.destination.lat !== 0) {
             this.props.navigation.goBack();
-            this.props.navigation.navigate('Itineraire');
           } else {
             this.props.navigation.goBack();
           }
@@ -50,6 +49,7 @@ class GoogleAutocomplete extends React.Component {
             backgroundColor: 'rgba(0,0,0,0)',
             borderTopWidth: 0,
             borderBottomWidth: 0,
+            marginTop: 20
           },
           textInput: {
             marginLeft: 0,
@@ -64,7 +64,7 @@ class GoogleAutocomplete extends React.Component {
           listView: {
             position: 'absolute',
             backgroundColor: 'white',
-            marginTop: 50
+            marginTop: 65
           }
         }}
       />
@@ -82,7 +82,7 @@ const mapDispatchToProps = dispatch => ({
   updateOrigine: (lat, lng, commune, route, formatedAdress) => dispatch(updateOrigine(lat, lng, commune, route, formatedAdress))
 });
 
-export default connect(
+export default withNavigation(connect(
   mapStateToProps,
   mapDispatchToProps
-)(GoogleAutocomplete);
+)(GoogleAutocomplete));

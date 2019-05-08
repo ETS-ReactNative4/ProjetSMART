@@ -14,6 +14,12 @@ const RootStack = createStackNavigator({
   Recherche: { screen: Recherche, navigationOptions: { title: 'Recherche' } },
   Trajet: { screen: Trajet },
   GoogleAutocomplete: { screen: GoogleAutocomplete }
+},
+{
+  headerMode: 'none',
+  navigationOptions: {
+    headerVisible: false,
+  }
 });
 
 const AppNavigator = createAppContainer(RootStack);

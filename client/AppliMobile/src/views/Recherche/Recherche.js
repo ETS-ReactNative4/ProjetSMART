@@ -1,13 +1,20 @@
-import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import React from 'react';
+import { View } from 'react-native';
 import RechercheLieu from '../../components/RechercheLieu/RechercheLieu';
-import styles from './stylesRecherche.js';
+import BoutonRetour from '../../components/BoutonRetour/BoutonRetour';
 
 // eslint-disable-next-line react/prefer-stateless-function
 export default class Trajet extends React.Component {
   render() {
     return (
-      <RechercheLieu type={this.props.navigation.getParam('type')} navigation={this.props.navigation} />
+      <View flex={12}>
+        <View flex={11}>
+          <RechercheLieu type={this.props.navigation.getParam('type')} />
+        </View>
+        <View flex={1}>
+          <BoutonRetour />
+        </View>
+      </View>
     );
   }
 }

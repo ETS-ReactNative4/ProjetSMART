@@ -1,30 +1,28 @@
 import React from 'react';
 import { View, Button, Text, TouchableHighlight } from 'react-native';
 import { connect } from 'react-redux';
-import RechercheLieu from '../RechercheLieu/RechercheLieu';
+import { withNavigation } from 'react-navigation';
 import styles from './stylesBoutonRecherche';
 
 class BontonRecherche extends React.Component {
-
-  _getTitleDepart  = () => {
-    if(this.props.origine.formatedAdress !== ""){
-      return(this.props.origine.formatedAdress)
+  _getTitleDepart = () => {
+    if (this.props.origine.formatedAdress !== '') {
+      return (this.props.origine.formatedAdress);
     }
-    return("Départ")
+    return ('Départ');
   }
 
 
-  _getTitleArrivee  = () => {
-    if(this.props.destination.formatedAdress !== ""){
-      return(this.props.destination.formatedAdress)
+  _getTitleArrivee = () => {
+    if (this.props.destination.formatedAdress !== '') {
+      return (this.props.destination.formatedAdress);
     }
-    return("Arrivée")
+    return ('Arrivée');
   }
-
 
   render() {
     return (
-      <View>
+      <View style={styles.containerRecherche}>
         <View style={styles.zone}>
           <TouchableHighlight
             onPress={() => {
@@ -32,24 +30,24 @@ class BontonRecherche extends React.Component {
                 type: 'depart'
               });
             }}
-            >
+          >
             <View style={styles.sousZone}>
-              <Text style={{ color: '#838383' }}>
+              <Text style={{ color: '#FFFFFF' }}>
                 {this._getTitleDepart()}
               </Text>
             </View>
           </TouchableHighlight>
         </View>
         <View style={styles.zone}>
-          <TouchableHighlight 
+          <TouchableHighlight
             onPress={() => {
               this.props.navigation.navigate('Recherche', {
                 type: 'arrivee'
               });
             }}
-            >
+          >
             <View style={styles.sousZone}>
-              <Text style={{ color: '#838383' }}>
+              <Text style={{ color: '#FFFFFF' }}>
                 {this._getTitleArrivee()}
               </Text>
             </View>
@@ -64,6 +62,6 @@ function mapStateToProps(state) {
   return { destination: state.destination, origine: state.origine };
 }
 
-export default connect(
+export default withNavigation(connect(
   mapStateToProps
-)(BontonRecherche);
+)(BontonRecherche));
