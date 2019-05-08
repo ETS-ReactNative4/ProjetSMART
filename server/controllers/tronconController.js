@@ -23,11 +23,12 @@ async function mainDirections(req, res) {
   const polylineStart = await googleRequest.getDirectionsByCommuneRue(latitudeOrigine + "," + longitudeOrigine, itineraireStart);
   const polylineEnd = await googleRequest.getDirectionsByCommuneRue(itineraireEnd, latitudeDestination + "," + longitudeDestination);
   const pointsTrajet = await getAllRoutesWithPenalties(closestStart.name, closestEnd.name);
+  const marqueursTrajet = await getAllMarqueurs(pointsTrajet);
   const polylineFinal = await buildPolyline(polylineStart, polylineEnd, JSON.parse(pointsTrajet), closestStart);
   const distancePolyline = await calculateDistanceOfAPolyline(polyline.decode(polylineFinal));
   const temps = (distancePolyline * 6)/2000;
   const calories = temps * 10;
-  const retour = {polyline: polylineFinal,distance: distancePolyline.toFixed(0),temps: temps.toFixed(0),calories: calories.toFixed(0)};
+  const retour = {polyline: polylineFinal,distance: distancePolyline.toFixed(0),temps: temps.toFixed(0),calories: calories.toFixed(0),marqueurs: marqueursTrajet};
   res.json(retour);
 }
 
@@ -212,12 +213,14 @@ async function projection(lat1, lon1, lat2, lon2, lat, lon){
 
 }
 
-  async function getMarqueurByIdTroncon(req, res){
-    return await marqueurService.getMarqueurById(req.query.codeTroncon);
+  async function getAllMarqueurs(listeIdTroncon){
+    let retour = [];
+    let marqueurPush =  await marqueurService.getallMarqueurById(listeIdTroncon);
+    return marqueurPush;
   }
 
 module.exports = {
   mainDirections,
   updateDatabase,
-  getMarqueurByIdTroncon
+  getAllMarqueurs
 }

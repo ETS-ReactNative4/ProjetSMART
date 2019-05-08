@@ -12,12 +12,14 @@ async function addMarqueurTroncon(unCodeTroncon, probleme, uneLatitude, uneLongi
   return nouveauMarqueur;
 }
 
-async function getMarqueurById(unCodeTroncon) {
-  const allTroncons = await Troncon.find({codeTroncon : unCodeTroncon });
-  return allTroncons;
+async function getallMarqueurById(listeCodeTroncon) {
+  const AllMarqueurs = await Marqueur.find({
+    'codeTroncon': { $in: listeCodeTroncon }
+  });
+  return AllMarqueurs;
 }
 
 module.exports = {
   addMarqueurTroncon,
-  getMarqueurById
+  getallMarqueurById
 };
