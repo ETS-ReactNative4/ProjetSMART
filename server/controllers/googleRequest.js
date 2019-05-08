@@ -39,6 +39,13 @@ function getDirectionsByCommuneRue(depart, destination) {
   })
 }
 
+
+async function calculateDistanceOfAPolyline(polylineToCalculate){
+    var lengthInMeters = google.maps.geometry.spherical.computeLength(polylineToCalculate.getPath());
+   console.log("polyline is "+lengthInMeters+" long");
+
+}
+
 function getCommuneAndRue(lat, long) {
   return new Promise ((resolve, reject) => {
     const tabLatLong = [lat, long];
