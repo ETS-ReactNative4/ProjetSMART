@@ -1,6 +1,7 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Image } from 'react-native';
 import { connect } from 'react-redux';
+import { Header } from 'react-native-elements';
 import Carte from '../../components/Carte/Carte';
 import BoutonSignalement from '../../components/BoutonSignalement/BoutonSignalement';
 import BoutonGo from '../../components/BoutonGo/BoutonGo';
@@ -18,7 +19,10 @@ class Accueil extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-
+        <Header
+          centerComponent={ <Image style={{ flex: 1, resizeMode: 'contain', marginBottom: 5 }} source={require('../../images/logo.png')} /> }
+          containerStyle={{ backgroundColor: '#000000' }}
+        />
         <View style={styles.carte}>
           <Carte />
           <BoutonRecherche />

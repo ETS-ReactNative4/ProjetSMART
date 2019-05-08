@@ -1,5 +1,6 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Image } from 'react-native';
+import { Header } from 'react-native-elements';
 import RechercheLieu from '../../components/RechercheLieu/RechercheLieu';
 import BoutonRetour from '../../components/BoutonRetour/BoutonRetour';
 
@@ -8,6 +9,10 @@ export default class Trajet extends React.Component {
   render() {
     return (
       <View flex={12}>
+        <Header
+          centerComponent={ <Image style={{ flex: 1, resizeMode: 'contain', marginBottom: 5 }} source={require('../../images/logo.png')} /> }
+          containerStyle={{ backgroundColor: '#000000' }}
+        />
         <View flex={11}>
           <RechercheLieu type={this.props.navigation.getParam('type')} />
         </View>

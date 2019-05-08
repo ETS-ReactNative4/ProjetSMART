@@ -9,7 +9,7 @@ export default StyleSheet.create({
     zIndex: 1
   },
   containerRecherche: {
-    marginTop: 20
+    marginTop: 0
   },
   zone: {
     borderRadius: 10,
