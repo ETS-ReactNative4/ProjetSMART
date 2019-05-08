@@ -17,5 +17,6 @@ export default StyleSheet.create({
   },
   boutonLetsGo: {
     justifyContent: 'center',
+    marginTop: 5
   }
 });

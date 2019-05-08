@@ -1,5 +1,6 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Image } from 'react-native';
+import { Header } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import googleService from '../../services/googleService';
@@ -14,7 +15,6 @@ class Loader extends React.Component {
     try {
       const destinationLoc = this.props.destination;
       const coordinates = this.props.origine;
-      console.log("test");
       console.log(coordinates);
       console.log(destinationLoc);
       const respJson = await googleService.getDirections(coordinates, destinationLoc);
@@ -30,7 +30,10 @@ class Loader extends React.Component {
 
   render() {
     return (
-      <Text>Loading...</Text>
+      <Header
+        centerComponent={ <Image style={{ flex: 1, resizeMode: 'contain', marginBottom: 5 }} source={require('../../../assets/logo.png')} /> }
+        containerStyle={{ backgroundColor: '#000000' }}
+      />
     );
   }
 }
