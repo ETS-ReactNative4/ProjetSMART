@@ -14,7 +14,7 @@ class Carte extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      mapRegion: { latitude: -33.872659, longitude: 151.206116, latitudeDelta: 0.0922, longitudeDelta: 0.0421 },
+      mapRegion: { latitude: 45.758060, longitude: 4.833740, latitudeDelta: 0.0922, longitudeDelta: 0.0421 },
       tabPoints: [],
       testMarker: [
         {
@@ -55,6 +55,9 @@ class Carte extends Component {
     }
     const locationActuel = await Location.getCurrentPositionAsync({});
     this.props.updateLocalisation(locationActuel.coords.latitude, locationActuel.coords.longitude);
+    this.setState({
+      mapRegion: { latitude: this.props.localisation.lat, longitude: this.props.localisation.lng, latitudeDelta: 0.0922, longitudeDelta: 0.0421 }
+    });
     console.log(this.props);
   };
 
@@ -100,7 +103,7 @@ class Carte extends Component {
       <View>
         <MapView
           style={styles.map}
-          region={this.state.region}
+          region={this.state.mapRegion}
           ref={(map) => { this.map = map; }}
           showsUserLocation
           userTrackingMode
