@@ -64,7 +64,7 @@ class BoutonSignalement extends React.Component {
             name="lightbulb-o"
             type="font-awesome"
             color="#E9BC40"
-            onPress={() => { this._signaler('Eclairage'); }}
+            onPress={() => { this._signaler('eclairage'); }}
           />
           <Icon
             reverse
@@ -73,7 +73,7 @@ class BoutonSignalement extends React.Component {
             name="exclamation-triangle"
             type="font-awesome"
             color="#E97740"
-            onPress={() => { this._signaler('Travaux'); }}
+            onPress={() => { this._signaler('travaux'); }}
           />
           <Icon
             reverse
@@ -82,7 +82,7 @@ class BoutonSignalement extends React.Component {
             name="close"
             type="font-awesome"
             color="#E94040"
-            onPress={() => { this._signaler('Ferme'); }}
+            onPress={() => { this._signaler('fermee'); }}
           />
         </View>
         <View style={styles.containerBas}>
@@ -93,7 +93,7 @@ class BoutonSignalement extends React.Component {
             name="road"
             type="font-awesome"
             color="#3497FD"
-            onPress={() => { this._signaler('EtatRoute'); }}
+            onPress={() => { this._signaler('etat'); }}
           />
           <Icon
             reverse
@@ -102,7 +102,7 @@ class BoutonSignalement extends React.Component {
             name="security"
             type="material-icons"
             color="#5773FF"
-            onPress={() => { this._signaler('Securite'); }}
+            onPress={() => { this._signaler('securite'); }}
           />
           <Icon
             reverse
@@ -112,7 +112,7 @@ class BoutonSignalement extends React.Component {
             type="font-awesome"
             color="#C840E9"
             background-color="#000000"
-            onPress={() => { this._signaler('Interet'); }}
+            onPress={() => { this._signaler('interet'); }}
           />
           <Icon
             raised

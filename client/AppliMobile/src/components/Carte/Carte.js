@@ -14,8 +14,28 @@ class Carte extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      mapRegion: { latitude: -33.872659, longitude: 151.206116, latitudeDelta: 0.0922, longitudeDelta: 0.0421 },
-      tabPoints: []
+      mapRegion: { latitude: 45.758060, longitude: 4.833740, latitudeDelta: 0.0922, longitudeDelta: 0.0421 },
+      tabPoints: [],
+      testMarker: [
+        {
+          lat: 45.77,
+          lng: 4.88,
+          markerType: 'fermee',
+          id: 1
+        },
+        {
+          lat: 45.77,
+          lng: 4.86,
+          markerType: 'etat',
+          id: 2
+        },
+        {
+          lat: 45.758,
+          lng: 4.833,
+          markerType: 'interet',
+          id: 3
+        }
+      ]
     };
   }
 
@@ -35,6 +55,9 @@ class Carte extends Component {
     }
     const locationActuel = await Location.getCurrentPositionAsync({});
     this.props.updateLocalisation(locationActuel.coords.latitude, locationActuel.coords.longitude);
+    this.setState({
+      mapRegion: { latitude: this.props.localisation.lat, longitude: this.props.localisation.lng, latitudeDelta: 0.0922, longitudeDelta: 0.0421 }
+    });
     console.log(this.props);
   };
 
@@ -60,28 +83,38 @@ class Carte extends Component {
     }
   }
 
+  displayMarkers() {
+    if (this.props.markerList.length > 0) {
+      return (
+        this.state.testMarker.map(marker => (
+          <MarkerPerso
+            coordinates={{ latitude: marker.lat, longitude: marker.lng }}
+            markertype={marker.markerType}
+            key={marker.id}
+          />
+        ))
+      );
+    }
+  }
+
   render() {
     return (
 
       <View>
         <MapView
           style={styles.map}
-          region={this.state.region}
+          region={this.state.mapRegion}
           ref={(map) => { this.map = map; }}
           showsUserLocation
           userTrackingMode
-          onRegionChange={this._handleMapRegionChange}
+          // onRegionChange={this._handleMapRegionChange}
         >
           <MapView.Polyline
             coordinates={this.state.tabPoints}
             strokeWidth={2}
             strokeColor="red"
           />
-          {this.props.markerList.map(marker => (
-            <MarkerPerso
-              localisation={marker.localisation}
-            />
-          ))}
+          {this.displayMarkers()}
         </MapView>
         {/* <Button title="Test Connection" onPress={() => this._getDirections()} /> */}
 

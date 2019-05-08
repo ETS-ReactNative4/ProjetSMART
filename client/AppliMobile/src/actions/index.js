@@ -1,3 +1,5 @@
+const markerId = 0;
+
 export const updateDestination = (lat, lng, commune, route, formatedAdress) => ({
   type: 'UPDATE_DESTINATION',
   lat,
@@ -26,5 +28,6 @@ export const addMarker = (lat, lng, markerType) => ({
   type: 'ADD_MARKER',
   lat,
   lng,
-  markerType
+  markerType,
+  id: markerId + 1
 });
