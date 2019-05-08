@@ -29,6 +29,7 @@ class GoogleAutocomplete extends React.Component {
             this.props.updateDestination(lat, lng, commune, route, formatedAdress);
           }
           if (this.props.origine.lat !== 0 && this.props.destination.lat !== 0) {
+            this.props.navigation.goBack();
             this.props.navigation.navigate('Itineraire');
           } else {
             this.props.navigation.goBack();
