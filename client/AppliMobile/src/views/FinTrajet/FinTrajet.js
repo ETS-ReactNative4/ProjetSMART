@@ -6,6 +6,7 @@ import BasItineraire from '../../components/BasItineraire/BasItineraire';
 import ResumeSignalement from '../../components/ResumeSignalement/ResumeSignalement';
 import styles from './stylesFinTrajet';
 
+// eslint-disable-next-line react/prefer-stateless-function
 export default class FinTrajet extends React.Component {
   render() {
     return (

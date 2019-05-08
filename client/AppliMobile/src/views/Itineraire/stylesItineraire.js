@@ -23,11 +23,16 @@ export default StyleSheet.create({
     justifyContent: 'center',
     paddingBottom: 10
   },
-  boutonLetsGo: {
+  boutons: {
     flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
+  boutonLetsGo: {
     justifyContent: 'center',
-    paddingLeft: 30,
-    paddingRight: 30,
-    paddingBottom: 7
+  },
+  boutonretour: {
+    justifyContent: 'center',
   }
 });
