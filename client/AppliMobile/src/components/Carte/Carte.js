@@ -107,7 +107,7 @@ class Carte extends Component {
           ref={(map) => { this.map = map; }}
           showsUserLocation
           userTrackingMode
-          onRegionChange={this._handleMapRegionChange}
+          // onRegionChange={this._handleMapRegionChange}
         >
           <MapView.Polyline
             coordinates={this.state.tabPoints}

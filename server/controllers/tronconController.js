@@ -104,11 +104,19 @@ async function buildPolyline (polylineStart, polylineEnd, listeIdTroncon, noeudD
   return polRes;
 }
 
-async function updateDatabase (req, res){
+async function addSignalement (req, res){
   //TODO TRANSFORMER COMMUNE ET RUE PAR LAT LONG
-  const routes = await tronconService.getRouteByCityStreet(req.query.commune, req.query.rue);
-  const lat = 45.762931;
-  const long = 4.835809;
+  console.log(req.body);
+  const lat = req.body.signalement.lat;
+  const long = req.body.signalement.lng;
+  const googleRequestRes = await googleRequest.getCommuneAndRue(lat, long);
+  const rue = googleRequestRes.rue;
+  const commune = googleRequestRes.commune;
+  console.log(rue);
+  console.log(commune);
+
+
+  const routes = await tronconService.getRouteByCityStreet(commune, rue);
   let retour;
   let noeuds = [];
   for (let i in routes) {
@@ -118,8 +126,8 @@ async function updateDatabase (req, res){
     noeuds.push(noeudArrivee[0]);
   }
   const node = findClosestNode(noeuds, lat, long);
-  let tronconsDepart = await tronconService.getTronconsByNoeudDepartCityStreet(node.name, req.query.commune, req.query.rue);
-  let tronconsArrive = await tronconService.getTronconsByNoeudArriveeCityStreet(node.name, req.query.commune, req.query.rue);
+  let tronconsDepart = await tronconService.getTronconsByNoeudDepartCityStreet(node.name, commune, rue);
+  let tronconsArrive = await tronconService.getTronconsByNoeudArriveeCityStreet(node.name, commune, rue);
   let tronconsTotaux = [];
   let noeud1, noeud2, noeud3, noeud4;
   if(tronconsDepart){
@@ -140,8 +148,8 @@ async function updateDatabase (req, res){
     }
   }
   var datetime = new Date();
-  await marqueurService.addMarqueurTroncon(retour.codeTroncon, req.query.probleme, lat, long, datetime, res);
-  await tronconService.updateTronconsProblems(retour, req.query.probleme, res);
+  await marqueurService.addMarqueurTroncon(retour.codeTroncon, req.body.signalement.problem, lat, long, datetime, res);
+  await tronconService.updateTronconsProblems(retour, req.body.signalement.problem, res);
 
    let penalite = 1;
    if (!!retour.eclairage) {
@@ -221,6 +229,7 @@ async function projection(lat1, lon1, lat2, lon2, lat, lon){
 
 module.exports = {
   mainDirections,
-  updateDatabase,
-  getAllMarqueurs
+  getAllMarqueurs,
+  addSignalement,
+  getMarqueurByIdTroncon
 }

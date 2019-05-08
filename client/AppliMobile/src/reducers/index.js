@@ -8,7 +8,7 @@ const rootReducer = combineReducers({
   destination: DestinationReducer,
   origine: OrigineReducer,
   localisation: LocalisationReducer,
-  markerList: MarkerReducer
+  markerList: MarkerReducer,
 });
 
 const configureStore = () => createStore(rootReducer);

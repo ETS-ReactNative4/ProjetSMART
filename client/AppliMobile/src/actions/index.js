@@ -1,4 +1,4 @@
-let markerId = 0;
+const markerId = 0;
 
 export const updateDestination = (lat, lng, commune, route, formatedAdress) => ({
   type: 'UPDATE_DESTINATION',
