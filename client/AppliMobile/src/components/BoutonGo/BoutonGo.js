@@ -7,7 +7,7 @@ import styles from './stylesBoutonGo';
 // eslint-disable-next-line react/prefer-stateless-function
 class BoutonGo extends React.Component {
   _press = () => {
-    this.props.navigation.navigate('Itineraire');
+    this.props.navigation.navigate('Loader');
   }
 
   render() {

@@ -11,8 +11,6 @@ import styles from './stylesAccueil';
 // eslint-disable-next-line react/prefer-stateless-function
 class Accueil extends React.Component {
   _displayBoutonGo = () => {
-    console.log("à vérifier");
-    console.log(this.props.origine);
     if (!!this.props.origine.lat && !!this.props.destination.lat) {
       return (<BoutonGo />);
     }

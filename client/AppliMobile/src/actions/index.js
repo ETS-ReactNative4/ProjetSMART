@@ -31,3 +31,11 @@ export const addMarker = (lat, lng, markerType) => ({
   markerType,
   id: markerId + 1
 });
+
+export const updateInfoItineraire = (polyline, distance, temps, calories) => ({
+  type: 'UPDATE_INFO_ITINERAIRE',
+  polyline,
+  distance,
+  temps,
+  calories
+});
