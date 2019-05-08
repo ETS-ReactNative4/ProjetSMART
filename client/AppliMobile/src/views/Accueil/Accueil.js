@@ -14,24 +14,8 @@ class Accueil extends React.Component {
       <View style={styles.container}>
 
         <View style={styles.carte}>
-          <Button
-            title="depart"
-            onPress={() => {
-              this.props.navigation.navigate('Recherche', {
-                type: 'depart'
-              });
-            }}
-          />
-          <Button
-            title="arrivee"
-            onPress={() => {
-              this.props.navigation.navigate('Recherche', {
-                type: 'arrivee'
-              });
-            }}
-          />
           <Carte />
-          <BoutonRecherche />
+          <BoutonRecherche navigation={this.props.navigation} />
         </View>
 
         <View style={styles.boutonSignalement}>

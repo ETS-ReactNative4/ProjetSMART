@@ -1,23 +1,69 @@
 import React from 'react';
-import { View, Button, Text } from 'react-native';
+import { View, Button, Text, TouchableHighlight } from 'react-native';
+import { connect } from 'react-redux';
 import RechercheLieu from '../RechercheLieu/RechercheLieu';
 import styles from './stylesBoutonRecherche';
 
-export default class BontonRecherche extends React.Component {
+class BontonRecherche extends React.Component {
+
+  _getTitleDepart  = () => {
+    if(this.props.origine.formatedAdress !== ""){
+      return(this.props.origine.formatedAdress)
+    }
+    return("Départ")
+  }
+
+
+  _getTitleArrivee  = () => {
+    if(this.props.destination.formatedAdress !== ""){
+      return(this.props.destination.formatedAdress)
+    }
+    return("Arrivée")
+  }
+
+
   render() {
     return (
       <View>
         <View style={styles.zone}>
-          <View style={styles.sousZone}>
-            <Text style={{ color: '#838383' }}>Départ</Text>
-          </View>
+          <TouchableHighlight
+            onPress={() => {
+              this.props.navigation.navigate('Recherche', {
+                type: 'depart'
+              });
+            }}
+            >
+            <View style={styles.sousZone}>
+              <Text style={{ color: '#838383' }}>
+                {this._getTitleDepart()}
+              </Text>
+            </View>
+          </TouchableHighlight>
         </View>
         <View style={styles.zone}>
-          <View style={styles.sousZone}>
-            <Text style={{ color: '#838383' }}>Arrivée</Text>
-          </View>
+          <TouchableHighlight 
+            onPress={() => {
+              this.props.navigation.navigate('Recherche', {
+                type: 'arrivee'
+              });
+            }}
+            >
+            <View style={styles.sousZone}>
+              <Text style={{ color: '#838383' }}>
+                {this._getTitleArrivee()}
+              </Text>
+            </View>
+          </TouchableHighlight>
         </View>
       </View>
     );
   }
 }
+
+function mapStateToProps(state) {
+  return { destination: state.destination, origine: state.origine };
+}
+
+export default connect(
+  mapStateToProps
+)(BontonRecherche);
