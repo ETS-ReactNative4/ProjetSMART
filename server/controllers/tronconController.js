@@ -27,7 +27,7 @@ async function mainDirections(req, res) {
   const distancePolyline = await calculateDistanceOfAPolyline(polyline.decode(polylineFinal));
   const temps = (distancePolyline * 6)/2000;
   const calories = temps * 10;
-  const retour = {polyline: polylineFinal,distance: distancePolyline,temps: temps,calories: calories};
+  const retour = {polyline: polylineFinal,distance: distancePolyline.toFixed(0),temps: temps.toFixed(0),calories: calories.toFixed(0)};
   res.json(retour);
 }
 
