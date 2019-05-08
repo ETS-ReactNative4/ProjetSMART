@@ -1,7 +1,7 @@
 /* eslint-disable linebreak-style */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Button } from 'react-native';
+import { View } from 'react-native';
 import { Location, Permissions } from 'expo';
 import MapView from 'react-native-maps';
 import Polyline from '@mapbox/polyline';
@@ -42,6 +42,7 @@ class Carte extends Component {
   componentDidMount() {
     // find your origin and destination point coordinates and pass it to our method.
     this._getLocationAsync();
+    this._getDirections();
   }
 
   _handleMapRegionChange = (mapRegion) => {
@@ -61,16 +62,11 @@ class Carte extends Component {
     console.log(this.props);
   };
 
-  async _getDirections() {
+  _getDirections() {
     try {
-      const destinationLoc = this.props.destination;
-      const coordinates = this.props.origine;
-      console.log(coordinates);
-      console.log(destinationLoc);
-      const respJson = await googleService.getDirections(coordinates, destinationLoc);
-      console.log(respJson);
-      const points = Polyline.decode(respJson);
-      // console.log(points);
+      console.log('Carte :');
+      console.log(this.props.infoItineraire);
+      const points = Polyline.decode(this.props.infoItineraire.polyline);
       const coords = points.map(point => ({
         latitude: point[0],
         longitude: point[1]
@@ -116,8 +112,6 @@ class Carte extends Component {
           />
           {this.displayMarkers()}
         </MapView>
-        {/* <Button title="Test Connection" onPress={() => this._getDirections()} /> */}
-
       </View>
     );
   }
@@ -128,7 +122,8 @@ function mapStateToProps(state) {
     destination: state.destination,
     localisation: state.localisation,
     markerList: state.markerList,
-    origine: state.origine
+    origine: state.origine,
+    infoItineraire: state.infoItineraire
   };
 }
 

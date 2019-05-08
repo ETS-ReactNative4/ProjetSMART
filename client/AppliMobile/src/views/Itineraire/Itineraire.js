@@ -15,7 +15,7 @@ class Itineraire extends React.Component {
     return (
       <View style={styles.container}>
         <Header
-          centerComponent={ <Image style={{ flex: 1, resizeMode: 'contain', marginBottom: 5 }} source={require('../../../assets/logo.png')} />}
+          centerComponent={<Image style={{ flex: 1, resizeMode: 'contain', marginBottom: 5 }} source={require('../../../assets/logo.png')} />}
           containerStyle={{ backgroundColor: '#000000' }}
         />
         <View style={styles.carte}>
@@ -23,7 +23,7 @@ class Itineraire extends React.Component {
         </View>
         <BoutonSignalement />
         <View style={styles.basItineraire}>
-          <BasItineraire data={{ temps: '15 min', distance: '2 km', calories: '53 kcal' }} />
+          <BasItineraire data={{ temps: `${this.props.infoItineraire.temps} min`, distance: `${this.props.infoItineraire.distance} km`, calories: `${this.props.infoItineraire.calories} kcal` }} />
           <View style={styles.boutons}>
             <View style={styles.boutonRetour}>
               <BoutonRetour />
@@ -39,7 +39,7 @@ class Itineraire extends React.Component {
 }
 
 function mapStateToProps(state) {
-  return { destination: state.destination, origine: state.origine };
+  return { destination: state.destination, origine: state.origine, infoItineraire: state.infoItineraire };
 }
 
 export default connect(
