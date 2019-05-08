@@ -12,7 +12,7 @@ export default class FinTrajet extends React.Component {
     return (
       <View style={styles.container}>
         <Header
-          centerComponent={ <Image style={{ flex: 1, resizeMode: 'contain', marginBottom: 5 }} source={require('../../images/logo.png')} /> }
+          centerComponent={ <Image style={{ flex: 1, resizeMode: 'contain', marginBottom: 5 }} source={require('../../../assets/logo.png')} /> }
           containerStyle={{ backgroundColor: '#000000' }}
         />
         <Text style={styles.titre}>Vous êtes arrivé !</Text>

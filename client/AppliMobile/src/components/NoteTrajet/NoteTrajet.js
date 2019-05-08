@@ -1,7 +1,9 @@
 import React from 'react';
 import { View, Text, Button, Alert } from 'react-native';
 import { AirbnbRating } from 'react-native-elements';
+import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
+import { updateDestination, updateOrigine } from '../../actions/index';
 import styles from './stylesNoteTrajet';
 
 class NoteTrajet extends React.Component {
@@ -11,6 +13,8 @@ class NoteTrajet extends React.Component {
 
     _onPress = () => {
       if (this.rating) {
+        this.props.updateOrigine(0, 0, '', '', '');
+        this.props.updateDestination(0, 0, '', '', '');
         this.props.navigation.navigate('Accueil');
       } else {
         Alert.alert('Info', 'Merci de bien vouloir renseigner une note');
@@ -45,4 +49,16 @@ class NoteTrajet extends React.Component {
     }
 }
 
-export default withNavigation(NoteTrajet);
+function mapStateToProps(state) {
+  return { destination: state.destination, origine: state.origine };
+}
+
+const mapDispatchToProps = dispatch => ({
+  updateDestination: (lat, lng, commune, route, formatedAdress) => dispatch(updateDestination(lat, lng, commune, route, formatedAdress)),
+  updateOrigine: (lat, lng, commune, route, formatedAdress) => dispatch(updateOrigine(lat, lng, commune, route, formatedAdress))
+});
+
+export default withNavigation(connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(NoteTrajet));
