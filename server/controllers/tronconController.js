@@ -24,7 +24,22 @@ async function mainDirections(req, res) {
   const polylineEnd = await googleRequest.getDirectionsByCommuneRue(itineraireEnd, latitudeDestination + "," + longitudeDestination);
   const pointsTrajet = await getAllRoutesWithPenalties(closestStart.name, closestEnd.name);
   const polylineFinal = await buildPolyline(polylineStart, polylineEnd, JSON.parse(pointsTrajet), closestStart);
-  res.json(polylineFinal);
+  const distancePolyline = await calculateDistanceOfAPolyline(polyline.decode(polylineFinal));
+  const temps = (distancePolyline * 6)/2000;
+  const calories = temps * 10;
+  const retour = {polyline: polylineFinal,distance: distancePolyline.toFixed(0),temps: temps.toFixed(0),calories: calories.toFixed(0)};
+  res.json(retour);
+}
+
+async function calculateDistanceOfAPolyline(polyline){
+  let distance = 0;
+  for (let i = 0;i<polyline.length - 1; i++) {
+    if(!isNaN(calculateDistance(polyline[i][0], polyline[i][1], polyline[i + 1][0], polyline[i + 1][1]))){
+      distance = distance + calculateDistance(polyline[i][0], polyline[i][1], polyline[i + 1][0], polyline[i + 1][1]);
+    }
+
+  }
+  return distance;
 }
 
 async function getAllRoutesWithPenalties(noeudDepart, noeudArrivee) {
