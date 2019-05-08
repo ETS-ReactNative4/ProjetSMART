@@ -6,7 +6,8 @@ const markerReducer = (state = [], action) => {
         {
           lat: action.lat,
           lng: action.lng,
-          markerType: action.markerType
+          markerType: action.markerType,
+          markerid: action.id
         }
       ];
     default:

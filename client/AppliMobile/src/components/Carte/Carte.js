@@ -15,7 +15,27 @@ class Carte extends Component {
     super(props);
     this.state = {
       mapRegion: { latitude: -33.872659, longitude: 151.206116, latitudeDelta: 0.0922, longitudeDelta: 0.0421 },
-      tabPoints: []
+      tabPoints: [],
+      testMarker: [
+        {
+          lat: 45.77,
+          lng: 4.88,
+          markerType: 'fermee',
+          id: 1
+        },
+        {
+          lat: 45.77,
+          lng: 4.86,
+          markerType: 'etat',
+          id: 2
+        },
+        {
+          lat: 45.758,
+          lng: 4.833,
+          markerType: 'interet',
+          id: 3
+        }
+      ]
     };
   }
 
@@ -60,6 +80,20 @@ class Carte extends Component {
     }
   }
 
+  displayMarkers() {
+    if (this.props.markerList.length > 0) {
+      return (
+        this.state.testMarker.map(marker => (
+          <MarkerPerso
+            coordinates={{ latitude: marker.lat, longitude: marker.lng }}
+            markertype={marker.markerType}
+            key={marker.id}
+          />
+        ))
+      );
+    }
+  }
+
   render() {
     return (
 
@@ -77,11 +111,7 @@ class Carte extends Component {
             strokeWidth={2}
             strokeColor="red"
           />
-          {this.props.markerList.map(marker => (
-            <MarkerPerso
-              localisation={marker.localisation}
-            />
-          ))}
+          {this.displayMarkers()}
         </MapView>
         {/* <Button title="Test Connection" onPress={() => this._getDirections()} /> */}
 
