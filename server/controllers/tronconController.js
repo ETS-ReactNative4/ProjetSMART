@@ -23,7 +23,7 @@ async function mainDirections(req, res) {
   const polylineStart = await googleRequest.getDirectionsByCommuneRue(latitudeOrigine + "," + longitudeOrigine, itineraireStart);
   const polylineEnd = await googleRequest.getDirectionsByCommuneRue(itineraireEnd, latitudeDestination + "," + longitudeDestination);
   const pointsTrajet = await getAllRoutesWithPenalties(closestStart.name, closestEnd.name);
-  const marqueursTrajet = await getAllMarqueurs(pointsTrajet);
+  const marqueursTrajet = await getAllMarqueurs(JSON.parse(pointsTrajet));
   const polylineFinal = await buildPolyline(polylineStart, polylineEnd, JSON.parse(pointsTrajet), closestStart);
   const distancePolyline = await calculateDistanceOfAPolyline(polyline.decode(polylineFinal));
   const temps = (distancePolyline * 6)/2000;
@@ -106,14 +106,11 @@ async function buildPolyline (polylineStart, polylineEnd, listeIdTroncon, noeudD
 
 async function addSignalement (req, res){
   //TODO TRANSFORMER COMMUNE ET RUE PAR LAT LONG
-  console.log(req.body);
   const lat = req.body.signalement.lat;
   const long = req.body.signalement.lng;
   const googleRequestRes = await googleRequest.getCommuneAndRue(lat, long);
   const rue = googleRequestRes.rue;
   const commune = googleRequestRes.commune;
-  console.log(rue);
-  console.log(commune);
 
 
   const routes = await tronconService.getRouteByCityStreet(commune, rue);
@@ -222,7 +219,6 @@ async function projection(lat1, lon1, lat2, lon2, lat, lon){
 }
 
   async function getAllMarqueurs(listeIdTroncon){
-    let retour = [];
     let marqueurPush =  await marqueurService.getallMarqueurById(listeIdTroncon);
     return marqueurPush;
   }
@@ -230,6 +226,5 @@ async function projection(lat1, lon1, lat2, lon2, lat, lon){
 module.exports = {
   mainDirections,
   getAllMarqueurs,
-  addSignalement,
-  getMarqueurByIdTroncon
+  addSignalement
 }

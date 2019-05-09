@@ -3,6 +3,8 @@ import { Provider } from 'react-redux';
 import configureStore from './src/reducers/index';
 import AppNavigator from './src/navigation/AppNavigator';
 
+console.disableYellowBox = true;
+
 // eslint-disable-next-line react/prefer-stateless-function
 export default class App extends React.Component {
   render() {

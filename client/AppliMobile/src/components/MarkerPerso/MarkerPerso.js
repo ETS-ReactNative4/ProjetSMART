@@ -12,13 +12,13 @@ export default class MarkerPerso extends React.Component {
   selectImage() {
     if (this.props.markertype !== undefined) {
       switch (this.props.markertype) {
-        case 'securite':
+        case 'travaux':
           return (
             <Icon
               reverse
               raised
               style={{ flex: 1 }}
-              size="13"
+              size={13}
               name="exclamation-triangle"
               type="font-awesome"
               color="#E97740"
@@ -30,7 +30,7 @@ export default class MarkerPerso extends React.Component {
               reverse
               raised
               style={{ flex: 1 }}
-              size="13"
+              size={13}
               name="road"
               type="font-awesome"
               color="#3497FD"
@@ -42,7 +42,7 @@ export default class MarkerPerso extends React.Component {
               reverse
               raised
               style={{ flex: 1 }}
-              size="13"
+              size={13}
               name="lightbulb-o"
               type="font-awesome"
               color="#E9BC40"
@@ -54,20 +54,20 @@ export default class MarkerPerso extends React.Component {
               reverse
               raised
               style={{ flex: 1 }}
-              size="13"
+              size={13}
               name="heart"
               type="font-awesome"
               color="#C840E9"
               background-color="#000000"
             />
           );
-        case 'travaux':
+        case 'securite':
           return (
             <Icon
               reverse
               raised
               style={{ flex: 1 }}
-              size="13"
+              size={13}
               name="security"
               type="material-icons"
               color="#5773FF"
@@ -79,7 +79,7 @@ export default class MarkerPerso extends React.Component {
               reverse
               raised
               style={{ flex: 1 }}
-              size="13"
+              size={13}
               name="close"
               type="font-awesome"
               color="#E94040"

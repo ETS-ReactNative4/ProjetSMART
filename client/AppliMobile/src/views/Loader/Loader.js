@@ -1,10 +1,11 @@
 import React from 'react';
-import { Image } from 'react-native';
+import { Image, View } from 'react-native';
 import { Header } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import googleService from '../../services/googleService';
-import { updateInfoItineraire } from '../../actions/index';
+import { updateInfoItineraire, addMarker } from '../../actions/index';
+import Spinner from '../../components/LoadingSpinner/loadingSpinner';
 
 class Loader extends React.Component {
   componentDidMount() {
@@ -15,10 +16,10 @@ class Loader extends React.Component {
     try {
       const destinationLoc = this.props.destination;
       const coordinates = this.props.origine;
-      console.log(coordinates);
-      console.log(destinationLoc);
       const respJson = await googleService.getDirections(coordinates, destinationLoc);
-      console.log(respJson);
+      respJson.marqueurs.forEach((marker) => {
+        this.props.addMarker(marker.latitude, marker.longitude, marker.Categorie);
+      });
       this.props.updateInfoItineraire(respJson.polyline, respJson.distance / 1000, respJson.temps, respJson.calories);
       this.props.navigation.navigate('Itineraire');
       return 'fini';
@@ -30,20 +31,31 @@ class Loader extends React.Component {
 
   render() {
     return (
-      <Header
-        centerComponent={ <Image style={{ flex: 1, resizeMode: 'contain', marginBottom: 5 }} source={require('../../../assets/logo.png')} /> }
-        containerStyle={{ backgroundColor: '#000000' }}
-      />
+      <View style={{ flex: 1 }}>
+        <Header
+          centerComponent={<Image style={{ flex: 1, resizeMode: 'contain', marginBottom: 5 }} source={require('../../../assets/logo.png')} />}
+          containerStyle={{ backgroundColor: '#000000' }}
+        />
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <Spinner />
+        </View>
+      </View>
     );
   }
 }
 
 function mapStateToProps(state) {
-  return { destination: state.destination, origine: state.origine, infoItineraire: state.infoItineraire };
+  return {
+    destination: state.destination,
+    origine: state.origine,
+    infoItineraire: state.infoItineraire,
+    markerList: state.markerList
+  };
 }
 
 const mapDispatchToProps = dispatch => ({
   updateInfoItineraire: (polyline, distance, temps, calories) => dispatch(updateInfoItineraire(polyline, distance, temps, calories)),
+  addMarker: (lat, lng, markerType) => dispatch(addMarker(lat, lng, markerType))
 });
 
 export default withNavigation(connect(

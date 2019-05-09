@@ -7,7 +7,6 @@ import MapView from 'react-native-maps';
 import Polyline from '@mapbox/polyline';
 import { updateLocalisation } from '../../actions/index';
 import styles from './styleCarte';
-import googleService from '../../services/googleService';
 import MarkerPerso from '../MarkerPerso/MarkerPerso';
 
 class Carte extends Component {
@@ -16,26 +15,26 @@ class Carte extends Component {
     this.state = {
       mapRegion: { latitude: 45.758060, longitude: 4.833740, latitudeDelta: 0.0922, longitudeDelta: 0.0421 },
       tabPoints: [],
-      testMarker: [
-        {
-          lat: 45.77,
-          lng: 4.88,
-          markerType: 'fermee',
-          id: 1
-        },
-        {
-          lat: 45.77,
-          lng: 4.86,
-          markerType: 'etat',
-          id: 2
-        },
-        {
-          lat: 45.758,
-          lng: 4.833,
-          markerType: 'interet',
-          id: 3
-        }
-      ]
+      // testMarker: [
+      //   {
+      //     lat: 45.77,
+      //     lng: 4.88,
+      //     markerType: 'fermee',
+      //     id: 1
+      //   },
+      //   {
+      //     lat: 45.77,
+      //     lng: 4.86,
+      //     markerType: 'etat',
+      //     id: 2
+      //   },
+      //   {
+      //     lat: 45.758,
+      //     lng: 4.833,
+      //     markerType: 'interet',
+      //     id: 3
+      //   }
+      // ]
     };
   }
 
@@ -43,6 +42,10 @@ class Carte extends Component {
     // find your origin and destination point coordinates and pass it to our method.
     this._getLocationAsync();
     this._getDirections();
+  }
+
+  componentDidUpdate() {
+
   }
 
   _handleMapRegionChange = (mapRegion) => {
@@ -82,13 +85,16 @@ class Carte extends Component {
   displayMarkers() {
     if (this.props.markerList.length > 0) {
       return (
-        this.state.testMarker.map(marker => (
-          <MarkerPerso
-            coordinates={{ latitude: marker.lat, longitude: marker.lng }}
-            markertype={marker.markerType}
-            key={marker.id}
-          />
-        ))
+        this.props.markerList.map((marker) => {
+          console.log(marker);
+          return (
+            <MarkerPerso
+              coordinates={{ latitude: marker.lat, longitude: marker.lng }}
+              markertype={marker.markerType}
+              key={marker.id}
+            />
+          );
+        })
       );
     }
   }
